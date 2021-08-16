@@ -14,13 +14,28 @@ public class Duke {
 
         String line;
         Scanner in = new Scanner(System.in);
+        String [] item = new String[100];
+        int index = 0;
 
         do{
             line = in.nextLine();
-            printWithLine(List.of());
-            printWithLine(List.of(line));
+            if (line.equals("list")){
+                printWithLine(List.of());
+                int k = 1;
+                for (int i = 0; i < index; i++){
+                    System.out.println("     " + k + ". " + item[i]);
+                    k++;
+                }
+                printWithLine(List.of());
+            }else if (!line.equals("bye")){
+                item[index] = line;
+                index++;
+                printWithLine(List.of());
+                printWithLine(List.of("added: " + line));
+            }
         }while(!line.equals("bye"));
 
+        printWithLine(List.of());
         printWithLine(List.of("Bye. Hope to see you again soon!"));
     }
 
