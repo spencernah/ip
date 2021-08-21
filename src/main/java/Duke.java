@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Duke {
+	
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -71,6 +72,7 @@ public class Duke {
     }
 
     private static void printWithLine(List<String> messages){
+		
         for (String message : messages){
             System.out.println("   " + message);
         }
