@@ -56,7 +56,7 @@ public class Duke {
                 item.add(eventTask);
                 printWithLine((List.of("Got it. I've added this task: ", eventTask.toString(), "Now you have " + item.size() + " task in the list. ")));
 
-            } else if(line.toLowerCase().equals("bye")) {
+            } else if(line.toLowerCase().equals("bye")){
                 printWithLine(List.of());
                 printWithLine(List.of("Bye. Hope to see you again soon!"));
 
@@ -68,7 +68,6 @@ public class Duke {
 
             }
         }while(!line.equals("bye"));
-
     }
 
     private static void printWithLine(List<String> messages){
