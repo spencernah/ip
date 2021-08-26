@@ -2,6 +2,7 @@ import ui.Ui;
 
 public class Duke {
     public static void main(String[] args) {
+        boolean isExit = false;
         /*
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -13,6 +14,17 @@ public class Duke {
 
         Ui ui = new Ui();
         ui.welcome();
-        ui.bye();
+        while (!isExit) {
+            String command = ui.readCommand();
+            if (command.equals("bye")) {
+                isExit = true;
+                ui.bye();
+            }
+            else {
+                ui.echo(command);
+            }
+        }
+
+
     }
 }

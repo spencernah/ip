@@ -18,9 +18,18 @@ public class Ui {
         newline();
     }
 
+    public String readCommand(){
+        return in.nextLine();
+    }
+
+    public void echo(String input) {
+        System.out.println(input);
+        newline();
+    }
     public void bye(){
         System.out.println("Buai :(");
         newline();
+        in.close();
     }
 }
 
