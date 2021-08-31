@@ -55,7 +55,7 @@ public class Duke {
 
         String line;
         Scanner in = new Scanner(System.in);
-        List<Task> items = new ArrayList<>();
+        List<Task> item = new ArrayList<>();
 
         do{
             line = in.nextLine();
@@ -70,38 +70,38 @@ public class Duke {
                     printWithLine(List.of());
                     List<String> messages = new ArrayList<>();
                     System.out.println("   Here are the tasks in your list: ");
-                    for (int i = 0; i < items.size(); i++) {
-                        messages.add(i + 1 + "." + items.get(i));
+                    for (int i = 0; i < item.size(); i++) {
+                        messages.add(i + 1 + "." + item.get(i));
                     }
                     printWithLine(messages);
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("done")) {
                     printWithLine(List.of());
-                    Task markItem = items.get(Integer.parseInt(line.substring(5)) - 1);
+                    Task markItem = item.get(Integer.parseInt(line.substring(5)) - 1);
                     markItem.markAsDone();
                     printWithLine(List.of("Nice! I've marked this task as done: ", " " + markItem));
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("todo")) {
                     printWithLine(List.of());
                     Task todoTask = new Todo(line.replace(line.split(" ")[0] + " ", ""));
-                    items.add(todoTask);
-                    printWithLine((List.of("Got it. I've added this task: ", todoTask.toString(), "Now you have " + items.size() + " task in the list. ")));
+                    item.add(todoTask);
+                    printWithLine((List.of("Got it. I've added this task: ", todoTask.toString(), "Now you have " + item.size() + " task in the list. ")));
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("deadline")) {
                     printWithLine(List.of());
                     int position = line.indexOf("/");
                     String time = line.split("/")[1].replace("by ", "");
                     Task deadlineTask = new Deadline(line.substring(9, position - 1), time);
-                    items.add(deadlineTask);
-                    printWithLine((List.of("Got it. I've added this task: ", deadlineTask.toString(), "Now you have " + items.size() + " task in the list. ")));
+                    item.add(deadlineTask);
+                    printWithLine((List.of("Got it. I've added this task: ", deadlineTask.toString(), "Now you have " + item.size() + " task in the list. ")));
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("event")) {
                     printWithLine(List.of());
                     int position = line.indexOf("/");
                     String time = line.split("/")[1].replace("at ", "");
                     Task eventTask = new Event(line.substring(6, position - 1), time);
-                    items.add(eventTask);
-                    printWithLine((List.of("Got it. I've added this task: ", eventTask.toString(), "Now you have " + items.size() + " task in the list. ")));
+                    item.add(eventTask);
+                    printWithLine((List.of("Got it. I've added this task: ", eventTask.toString(), "Now you have " + item.size() + " task in the list. ")));
 
                 } else if (line.equalsIgnoreCase("bye")) {
                     printWithLine(List.of());
