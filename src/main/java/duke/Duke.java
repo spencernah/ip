@@ -21,7 +21,8 @@ public class Duke{
 
         if (!keyword.equals("list") && !keyword.equals("bye")
         && !keyword.equals("todo") && !keyword.equals("done")
-        && !keyword.equals("event") && !keyword.equals("deadline")){
+        && !keyword.equals("event") && !keyword.equals("deadline")
+        && !keyword.equals("delete")){
             throw new DukeCheckLineException();
         }
     }
@@ -42,6 +43,10 @@ public class Duke{
         }
 
         if (keyword.equals("done") && line.split(" ").length == 1){
+            throw new DukeException();
+        }
+
+        if (keyword.equals("delete") && line.split(" ").length == 1){
             throw new DukeException();
         }
     }
@@ -80,9 +85,27 @@ public class Duke{
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("done")){
                     printWithLine(List.of());
-                    Task markItem = items.get(Integer.parseInt(line.substring(5)) - 1);
-                    markItem.markAsDone();
-                    printWithLine(List.of("Nice! I've marked this task as done: ", " " + markItem));
+                    try {
+                        Task markItem = items.get(Integer.parseInt(line.substring(5)) - 1);
+                        markItem.markAsDone();
+                        printWithLine(List.of("Nice! I've marked this task as done: ", " " + markItem));
+                    } catch (NumberFormatException e){
+                        printWithLine((List.of("☹ OOPS!!! This is not a number: " + line.split(" ")[1])));
+                    } catch (IndexOutOfBoundsException e){
+                        printWithLine((List.of("☹ OOPS!!! The index out of bound: " + line.split(" ")[1])));
+                    }
+
+                } else if (line.split(" ")[0].equalsIgnoreCase("delete")){
+                    printWithLine(List.of());
+                    try{
+                        Task deleteItem = items.get((Integer.parseInt(line.split(" ")[1]) - 1));
+                        items.remove(deleteItem);
+                        printWithLine((List.of("Noted. I've removed this task: ", " " + deleteItem, "Now you have " + items.size() + " task in the list. ")));
+                    } catch (NumberFormatException e){
+                        printWithLine((List.of("☹ OOPS!!! This is not a number: " + line.split(" ")[1])));
+                    } catch (IndexOutOfBoundsException e){
+                        printWithLine((List.of("☹ OOPS!!! The index out of bound: " + line.split(" ")[1])));
+                    }
 
                 } else if (line.split(" ")[0].equalsIgnoreCase("todo")){
                     printWithLine(List.of());
