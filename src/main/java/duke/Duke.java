@@ -56,8 +56,15 @@ public class Duke{
             throw new DukeException();
         }
     }
+<<<<<<< HEAD
 
     public static void main(String[] args) throws IOException {
+=======
+    /**
+     * Constructs Duke application.
+     */
+    public static void main(String[] args){
+>>>>>>> branch-A-JavaDoc
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
