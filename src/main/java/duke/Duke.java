@@ -26,9 +26,9 @@ public class Duke{
         String keyword = line.split(" ")[0].toLowerCase();
 
         if (!keyword.equals("list") && !keyword.equals("bye")
-        && !keyword.equals("todo") && !keyword.equals("done")
-        && !keyword.equals("event") && !keyword.equals("deadline")
-        && !keyword.equals("delete")){
+                && !keyword.equals("todo") && !keyword.equals("done")
+                && !keyword.equals("event") && !keyword.equals("deadline")
+                && !keyword.equals("delete")){
             throw new DukeCheckLineException();
         }
     }
@@ -56,15 +56,10 @@ public class Duke{
             throw new DukeException();
         }
     }
-<<<<<<< HEAD
-
-    public static void main(String[] args) throws IOException {
-=======
     /**
      * Constructs Duke application.
      */
-    public static void main(String[] args){
->>>>>>> branch-A-JavaDoc
+    public static void main(String[] args) throws IOException {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -185,7 +180,7 @@ public class Duke{
     }
 
     private static void printWithLine(List<String> messages){
-		
+
         for (String message : messages){
             System.out.println("   " + message);
         }

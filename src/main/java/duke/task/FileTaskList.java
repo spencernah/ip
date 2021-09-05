@@ -6,6 +6,11 @@ public class FileTaskList extends Task{
         super(description);
     }
 
+    /**
+     * Return a list of strings to user.
+     *
+     * @return this string task.
+     */
     @Override
     public String toString(){
         return super.fileListToString();
