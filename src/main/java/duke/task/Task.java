@@ -21,4 +21,8 @@ public abstract class Task {
     public String toString(){
         return "[" + getStatusIcon() + "]" + description;
     }
+
+    public String fileListToString(){
+        return  description;
+    }
 }
