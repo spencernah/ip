@@ -9,6 +9,11 @@ public class Deadline extends Task{
         this.by = by;
     }
 
+    /**
+     * Return a list of strings to user.
+     *
+     * @return this string task.
+     */
     @Override
     public String toString(){
         return "[D]" + super.toString() + " (by: " + by + ")";
