@@ -1,5 +1,7 @@
 package duke.task;
 
+import java.util.List;
+
 public abstract class Task {
 
     protected String description;
@@ -27,7 +29,7 @@ public abstract class Task {
     }
 
     /**
-     *Return a list of strings to user.
+     * Return a list of strings to user.
      *
      * @return this string task.
      */
@@ -35,7 +37,12 @@ public abstract class Task {
         return "[" + getStatusIcon() + "]" + description;
     }
 
-    public String fileListToString(){
-        return  description;
+    /**
+     * Return a list of strings that can be saved.
+     *
+     * @return a task list for saving.
+     */
+    public List<String> getList(){
+        return List.of(isDone ? "1" : "0", description);
     }
 }
