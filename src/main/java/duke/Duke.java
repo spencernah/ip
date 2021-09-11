@@ -1,5 +1,11 @@
 package duke;
 
+import duke.command.ByeCommand;
+import duke.command.Command;
+import duke.command.DeleteCommand;
+import duke.command.DoneCommand;
+import duke.command.FindCommand;
+import duke.command.ListCommand;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.ToDo;
@@ -7,11 +13,6 @@ import duke.task.TaskList;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
-import duke.command.Command;
-import duke.command.DoneCommand;
-import duke.command.ListCommand;
-import duke.command.DeleteCommand;
-import duke.command.ByeCommand;
 
 
 public class Duke{
@@ -46,6 +47,7 @@ public class Duke{
         parser.capture("done", new DoneCommand(tasks,storage));
         parser.capture("delete", new DeleteCommand(tasks, storage));
         parser.capture("bye", new ByeCommand());
+        parser.capture("find", new FindCommand(tasks));
     }
 
     static void checkWord(String line)throws DukeCheckLineException{
@@ -54,7 +56,7 @@ public class Duke{
         if (!keyword.equals("list") && !keyword.equals("bye")
                 && !keyword.equals("todo") && !keyword.equals("done")
                 && !keyword.equals("event") && !keyword.equals("deadline")
-                && !keyword.equals("delete")){
+                && !keyword.equals("delete") && !keyword.equals("find")){
             throw new DukeCheckLineException();
         }
     }
