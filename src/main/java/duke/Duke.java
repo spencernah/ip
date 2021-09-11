@@ -48,8 +48,8 @@ public class Duke{
         parser.capture("bye", new ByeCommand());
     }
 
-    static void checkWord(String line)throws DukeCheckLineException{
-        String keyword = line.split(" ")[0].toLowerCase();
+    static void checkWord(String keyWord)throws DukeCheckLineException{
+        String keyword = keyWord.toLowerCase();
 
         if (!keyword.equals("list") && !keyword.equals("bye")
                 && !keyword.equals("todo") && !keyword.equals("done")
