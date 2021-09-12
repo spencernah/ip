@@ -2,7 +2,7 @@ package duke.task;
 
 import java.util.List;
 
-public abstract class Task {
+public class Task {
 
     protected String description;
     protected boolean isDone;
