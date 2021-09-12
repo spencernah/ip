@@ -31,7 +31,7 @@ public class Parser {
      * @return command to use for the next processing.
      */
     public Command parse(String [] fullCommand){
-        Command command = commands.get(fullCommand[0]);
+        Command command = commands.get(fullCommand[0].toLowerCase());
 
         try{
             checkWord(fullCommand[0]);

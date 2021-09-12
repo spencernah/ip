@@ -7,12 +7,10 @@ import duke.command.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Deadline extends Task{
-    protected String by;
+public class Deadline extends Time{
 
-    public Deadline(String description, String by){
-        super(description);
-        this.by = by;
+    public Deadline(String description, String time){
+        super(description, time);
     }
 
     public static void checkDescription(int index)throws DukeException{
@@ -67,7 +65,7 @@ public class Deadline extends Task{
         List<String> list = new ArrayList<>();
         list.add("D");
         list.addAll(super.getList());
-        list.add(by);
+        list.add(convertSaveTimeString());
         return list;
     }
 
@@ -78,6 +76,6 @@ public class Deadline extends Task{
      */
     @Override
     public String toString(){
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + convertTimeString() + ")";
     }
 }

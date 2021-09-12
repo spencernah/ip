@@ -7,12 +7,10 @@ import duke.DukeException;
 import duke.Storage;
 import duke.command.Command;
 
-public class Event extends Task{
-    private String time;
+public class Event extends Time{
 
     public Event(String description, String time){
-        super(description);
-        this.time = time;
+        super(description, time);
     }
 
     public static void checkDescription(int index)throws DukeException{
@@ -67,7 +65,7 @@ public class Event extends Task{
         List<String> list = new ArrayList<>();
         list.add("E");
         list.addAll(super.getList());
-        list.add(time);
+        list.add(convertSaveTimeString());
         return list;
     }
 
@@ -78,6 +76,6 @@ public class Event extends Task{
      */
     @Override
     public String toString(){
-        return "[E]" + super.toString() + " (at: " + time + ")";
+        return "[E]" + super.toString() + " (at: " + convertTimeString() + ")";
     }
 }
