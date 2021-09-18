@@ -4,20 +4,23 @@ DukePro is a **desktop app for managing tasks, optimized for use via a Command L
 
 ## Quick Start
 1. Ensure you have Java ```11 ``` or above installed in your computer.
-1. Download the latest ```ip.jar ``` from [here](https://github.com/e0373972/ip/releases).
-1. Copy the file to the folder you want to use as the home folder for your DukePro. 
-1. Create an empty folder name  ```data ``` (refer to the image below).
+2. Download the latest ```ip.jar ``` from [here](https://github.com/e0373972/ip/releases).
+3. Copy the file to the folder you want to use as the home folder for your DukePro. 
+4. Create an empty folder name  ```data ``` (refer to the image below). 
 
-![Image of  filepaths](https://github.com/e0373972/ip/tree/master/docs/filepaths.png)
-1. Double-click the file to start the app.
+![Image of  filepaths](filepaths.png)
 
-![Image of example](https://github.com/e0373972/ip/tree/master/docs/example.png)
-1. Type the command in the command box and press Enter to execute it.
+5. Double-click the file to start the app. 
+
+![Image of example](example.png)
+
+6. Type the command in the command box and press Enter to execute it.
 
 Some example commands you can try:
 * ```todo borrow book ```: Add todo task ```borrow book ``` to the task list.
 * ```event project meeting /at 2/12/2021 1700 ```: Add event  ```project meeting (at Dec 2 2021 1700) ``` to the task list.
 * ```bye ```: Exits the app.
+
 ## Features 
 
 ### Add todo: ```todo ```
