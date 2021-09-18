@@ -10,7 +10,7 @@ DukePro is a **desktop app for managing tasks, optimized for use via a Command L
 
 ![Image of  filepaths](filepaths.png)
 
-5. Double-click the file to start the app. 
+5. Open Command Prompt and type ```java -jar ip.jar``` to start the app. 
 
 ![Image of example](example.png)
 
