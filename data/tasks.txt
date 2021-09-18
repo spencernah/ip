@@ -4,3 +4,4 @@ T|1|abc
 T|0|daf
 T|0|AER
 D|0|return book|2/12/2021 1800
+T|0|ADF
