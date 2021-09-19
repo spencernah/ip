@@ -4,19 +4,14 @@ DukePro is a **desktop app for managing tasks, optimized for use via a Command L
 
 ## Quick Start
 1. Ensure you have Java ```11 ``` or above installed in your computer.
-2. Download the latest ```ip.jar ``` from [here](https://github.com/e0373972/ip/releases).
-3. Copy the file to the folder you want to use as the home folder for your DukePro. 
-4. Create an empty folder name  ```data ``` (refer to the image below).
-
-![Image of  filepaths](filepaths.png)
-
-5. Open Command Prompt and type ```java -jar ip.jar``` to start the app. 
-
-![Image of example](example.png)
-
-6. Type the command in the command box and press Enter to execute it.
-
-Some example commands you can try:
+1. Download the latest ```ip.jar ``` from [here](https://github.com/e0373972/ip/releases).
+1. Copy the file to the folder you want to use as the home folder for your DukePro.
+1. Create an empty folder name  ```data ``` (refer to the image below).<br/>
+   ![Image of  filepaths](filepaths.png)
+1. Open Command Prompt and type ```java -jar ip.jar``` to start the app.<br/>
+   ![Image of example](example.png)
+1. Type the command in the command box and press Enter to execute it.<br/>
+   Some example commands you can try:
 * ```todo borrow book ```: Add todo task ```borrow book ``` to the task list.
 * ```event project meeting /at 2/12/2021 1700 ```: Add event  ```project meeting (at Dec 2 2021 1700) ``` to the task list.
 * ```deadline return book /by 2/12/2021 1800 ```: Add deadline ```return book (by Dec 2 2021 1800) ``` to the task list.
@@ -25,8 +20,6 @@ Some example commands you can try:
 * ```delete 2 ```: Delete the 2nd task in the list.
 * ```find book ```: Search the task with keyword of ```book```.
 * ```bye ```: Exits the app.
-
-7. Refer to the **Features** below for details of each command.
 
 ## Features 
 
