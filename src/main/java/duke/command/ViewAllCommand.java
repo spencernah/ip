@@ -3,8 +3,8 @@ package duke.command;
 import duke.task.TaskList;
 import duke.ui.Ui;
 import duke.storage.Storage;
-import duke.others.Messages;
-import duke.others.DukeException;
+import duke.misc.Messages;
+import duke.misc.DukeException;
 
 /**
  * Display the list of tasks

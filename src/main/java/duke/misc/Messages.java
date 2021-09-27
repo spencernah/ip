@@ -1,4 +1,4 @@
-package duke.others;
+package duke.misc;
 
 /**
  * Common messages used by methods in different classes.

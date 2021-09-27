@@ -4,9 +4,9 @@ import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
 import duke.storage.Storage;
-import duke.others.DukeException;
-import duke.others.Utility;
-import duke.others.Messages;
+import duke.misc.DukeException;
+import duke.misc.Utility;
+import duke.misc.Messages;
 
 import java.io.IOException;
 

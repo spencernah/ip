@@ -1,11 +1,11 @@
 package duke;
 
 import duke.command.Command;
-import duke.others.DukeException;
+import duke.misc.DukeException;
 import duke.parser.Parser;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.others.DateFormat;
+import duke.misc.DateFormat;
 import duke.storage.Storage;
 
 import java.io.*;
