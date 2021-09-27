@@ -8,7 +8,7 @@ import duke.storage.Storage;
 import java.io.IOException;
 
 /**
- * Represents an executable duke.command.
+ * Represents an executable duke.command class to be inherited
  */
 public class Command {
     /** Represents the status of the application. If True, application will be terminated */
