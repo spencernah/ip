@@ -1,4 +1,4 @@
-package duke.misc;
+package duke.others;
 
 /**
  * Duke-specific error handler.

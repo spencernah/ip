@@ -1,10 +1,10 @@
 package duke.parser;
 
 import duke.command.*;
-import duke.misc.DateFormat;
-import duke.misc.DukeException;
-import duke.misc.Keyword;
-import duke.misc.Utility;
+import duke.others.DateFormat;
+import duke.others.DukeException;
+import duke.others.Keyword;
+import duke.others.Utility;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

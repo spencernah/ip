@@ -1,4 +1,4 @@
-package duke.misc;
+package duke.others;
 
 public class Keyword {
     public static final String DONE = "done";

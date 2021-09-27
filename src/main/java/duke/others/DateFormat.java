@@ -1,4 +1,4 @@
-package duke.misc;
+package duke.others;
 
 /**
  * Represents the different date format used in Duke.
