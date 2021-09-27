@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
- * Represents the file and its corresponding methods used to store task list data.
+ * Represents the file and its corresponding methods used to store task list in data.txt.
  */
 public class Storage {
     protected String path;
