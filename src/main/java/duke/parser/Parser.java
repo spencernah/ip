@@ -42,9 +42,9 @@ public class Parser {
     public static Command parse(String input) throws DukeException, DateTimeParseException {
         checkForDelimiter(input);
         String keyword = getKeyword(input.trim());
-        String parameter = "";
-        String desc = "";
-        String date = "";
+        String parameter;
+        String desc;
+        String date;
 
         switch (keyword) {
             case (KEYWORD_EXIT_1):
