@@ -1,0 +1,580 @@
+From 666b3c0ed14eeedbe24a0555d941edc20dba2193 Mon Sep 17 00:00:00 2001
+From: "DESKTOP-3U485CE\\User" <spencernzh@gmail.com>
+Date: Mon, 27 Sep 2021 20:55:36 +0800
+Subject: [PATCH] Level-2 Level-3 Level-4
+
+---
+ src/main/java/Duke.java                   |  56 ----------
+ src/main/java/duke/others/DateFormat.java |   9 ++
+ src/main/java/duke/task/Deadline.java     |  34 ++++++
+ src/main/java/duke/task/Event.java        |  35 ++++++
+ src/main/java/duke/task/Task.java         | 130 ++++++++++++++++++++++
+ src/main/java/duke/task/TaskList.java     | 102 +++++++++++++++++
+ src/main/java/duke/task/ToDo.java         |   8 ++
+ src/main/java/duke/ui/Ui.java             |  81 ++++++++++++++
+ src/main/java/ui/Ui.java                  |  35 ------
+ 9 files changed, 399 insertions(+), 91 deletions(-)
+ delete mode 100644 src/main/java/Duke.java
+ create mode 100644 src/main/java/duke/others/DateFormat.java
+ create mode 100644 src/main/java/duke/task/Deadline.java
+ create mode 100644 src/main/java/duke/task/Event.java
+ create mode 100644 src/main/java/duke/task/Task.java
+ create mode 100644 src/main/java/duke/task/TaskList.java
+ create mode 100644 src/main/java/duke/task/ToDo.java
+ create mode 100644 src/main/java/duke/ui/Ui.java
+ delete mode 100644 src/main/java/ui/Ui.java
+
+diff --git a/src/main/java/Duke.java b/src/main/java/Duke.java
+deleted file mode 100644
+index 90eec78..0000000
+--- a/src/main/java/Duke.java
++++ /dev/null
+@@ -1,56 +0,0 @@
+-import ui.Ui;
+-import java.util.*;
+-
+-public class Duke {
+-    protected static List<String> tasks = new ArrayList<String>();
+-
+-    public static void printList() {
+-        for (int i = 0; i < tasks.size(); i++) {
+-            System.out.println(i+1 + ". " + tasks.get(i));
+-        }
+-    }
+-
+-    public static void main(String[] args) {
+-        boolean isExit = false;
+-
+-
+-        /*
+-        String logo = " ____        _        \n"
+-                + "|  _ \\ _   _| | _____ \n"
+-                + "| | | | | | | |/ / _ \\\n"
+-                + "| |_| | |_| |   <  __/\n"
+-                + "|____/ \\__,_|_|\\_\\___|\n";
+-
+-         */
+-
+-        Ui ui = new Ui();
+-        ui.welcome();
+-        while (!isExit) {
+-            String command = ui.readCommand();
+-
+-            switch(command) {
+-                case "bye":
+-                    isExit = true;
+-                    ui.bye();
+-                    break;
+-                case "hello":
+-                    ui.echo(command);
+-                    break;
+-                case "list":
+-                    printList();
+-                    ui.newline();
+-                    /*
+-                    for (int i = 0; i < tasks.size(); i++) {
+-                        System.out.println(i+1 + ". " + tasks.get(i));
+-                    }
+-                    */
+-                    break;
+-                default:
+-                    ui.echo("added: " + command);
+-                    tasks.add(command);
+-            }
+-
+-        }
+-    }
+-}
+-
+diff --git a/src/main/java/duke/others/DateFormat.java b/src/main/java/duke/others/DateFormat.java
+new file mode 100644
+index 0000000..3f61957
+--- /dev/null
++++ b/src/main/java/duke/others/DateFormat.java
+@@ -0,0 +1,9 @@
++package duke.others;
++
++/**
++ * Represents the different date format used in Duke.
++ */
++public class DateFormat {
++    public static final String EVENT_AND_DEADLINE = "dd MMM yyyy";
++    public static final String STANDARD = "yyyy-mm-dd";
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/task/Deadline.java b/src/main/java/duke/task/Deadline.java
+new file mode 100644
+index 0000000..be98733
+--- /dev/null
++++ b/src/main/java/duke/task/Deadline.java
+@@ -0,0 +1,34 @@
++package duke.task;
++
++import duke.others.DateFormat;
++
++import java.time.LocalDate;
++import java.time.format.DateTimeFormatter;
++
++/**
++ * A type of task where task is tied to a due date
++ */
++public class Deadline extends Task {
++    /** Represents the due date of the task */
++    protected LocalDate date;
++
++    public Deadline(String desc, LocalDate date) {
++        super(desc, "D");
++        this.date = date;
++    }
++
++    /** @return the date of the event. Format = "yyyy-mm-dd" */
++    public LocalDate getDate() {
++        return this.date;
++    }
++
++    /** @return the date of the event. Format = "dd mm yyyy" */
++    public String getFormattedDate() {
++        return this.date.format(DateTimeFormatter.ofPattern(DateFormat.EVENT_AND_DEADLINE));
++    }
++
++    /** @return the task type, task status (as a icon), task description and task date (in "dd mm yyyy" format). */
++    public String getStatusIconAndDesc() {
++        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (by: " + getFormattedDate() + ")";
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/task/Event.java b/src/main/java/duke/task/Event.java
+new file mode 100644
+index 0000000..a1d23ec
+--- /dev/null
++++ b/src/main/java/duke/task/Event.java
+@@ -0,0 +1,35 @@
++package duke.task;
++
++import duke.others.DateFormat;
++
++import java.time.LocalDate;
++import java.time.format.DateTimeFormatter;
++
++/**
++ * A type of task where task is tied to a occurrence date
++ */
++
++public class Event extends Task {
++    /** Represents the occurrence date of the event*/
++    protected LocalDate date;
++
++    public Event(String desc, LocalDate date) {
++        super(desc, "E");
++        this.date = date;
++    }
++
++    /** @return the date of the event. Format = "yyyy-mm-dd" */
++    public LocalDate getDate() {
++        return this.date;
++    }
++
++    /** @return the date of the event. Format = "dd mm yyyy" */
++    public String getFormattedDate() {
++        return this.date.format(DateTimeFormatter.ofPattern(DateFormat.EVENT_AND_DEADLINE));
++    }
++
++    /** @return the task type, task status (as a icon), task description and task date (in "dd mm yyyy" format). */
++    public String getStatusIconAndDesc() {
++        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (at: " + getFormattedDate() + ")";
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/task/Task.java b/src/main/java/duke/task/Task.java
+new file mode 100644
+index 0000000..98ba3d2
+--- /dev/null
++++ b/src/main/java/duke/task/Task.java
+@@ -0,0 +1,130 @@
++package duke.task;
++
++import java.time.LocalDate;
++
++/** Represents a generic task. */
++public class Task {
++    protected String desc;
++    /** Represents the status of the task. */
++    protected boolean isDone;
++    protected String type;
++    protected int doAfter = -1;
++    protected int doBefore =-1;
++
++    /**
++     * @param desc is the description of the task.
++     * @param type is the type of the task (deadline, event or todo).
++     */
++    public Task(String desc, String type) {
++        this.desc = desc;
++        this.isDone = false;
++        this.type = type;
++    }
++
++    /**
++     * Sets the task status based on the param.
++     *
++     * @param status used to overwrite the task status.
++     */
++    public void setStatus(boolean status) {
++        this.isDone = status;
++    }
++
++    /**
++     * Sets the doAfter task based on the param.
++     *
++     * @param index task index.
++     */
++    public void setDoAfter(int index) {
++        this.doAfter = index;
++    }
++
++    /**
++     * Sets the doBefore task based on the param.
++     *
++     * @param index task index.
++     */
++    public void setDoBefore(int index) {
++        this.doBefore = index;
++    }
++
++    /**
++     * Returns the task status (isDone) in the form of an icon.
++     *
++     * @return a tick or cross icon.
++     */
++    public String getStatusIcon() {
++        if (isDone) {
++            return "\u2713";
++        } else {
++            return "\u2718";
++        }
++    }
++
++    /** @return task description. */
++    public String getDesc() {
++        return this.desc;
++    }
++
++    /**
++     * Returns the task status.
++     *
++     * @return true if task is completed.
++     */
++    public boolean getIsDone() {
++        return this.isDone;
++    }
++
++    /** @return the task type, task status (as a icon) and task description. */
++    public String getStatusIconAndDesc() {
++        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
++    }
++
++    /** @return the task type (deadline, event or todo. */
++    public String getType() {
++        return this.type;
++    }
++
++    /**
++     * Used mainly for subclasses like event and deadline.
++     *
++     * @return null by default.
++     */
++    public LocalDate getDate() {
++        return null;
++    }
++
++    /**
++     * @return doAfter task index.
++     */
++    public int getDoAfter() {
++        return this.doAfter;
++    }
++
++    /**
++     * @return doBefore task index.
++     */
++    public int getDoBefore() {
++        return this.doBefore;
++    }
++
++    /** Change the task status to complete. */
++    public void markAsDone() {
++        this.isDone = true;
++    }
++
++    /**
++     * @return true if there is no Do After task.
++     */
++    public boolean isDoAfterEmpty() {
++        return this.doAfter == -1;
++    }
++
++    /**
++     * @return true if there is no Do Before task.
++     */
++    public boolean isDoBeforeEmpty() {
++        return this.doBefore == -1;
++    }
++
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/task/TaskList.java b/src/main/java/duke/task/TaskList.java
+new file mode 100644
+index 0000000..94b164b
+--- /dev/null
++++ b/src/main/java/duke/task/TaskList.java
+@@ -0,0 +1,102 @@
++package duke.task;
++
++import java.util.ArrayList;
++import java.io.BufferedReader;
++import java.io.StringReader;
++import java.io.IOException;
++import java.time.LocalDate;
++import java.time.format.DateTimeParseException;
++
++/**
++ * Represents the list used to store the various tasks.
++ */
++public class TaskList {
++    protected static ArrayList<Task> taskList;
++
++    /**
++     * Create a task list using existing data.
++     *
++     * @param input is a String of task data.
++     * @throws IOException if there are errors writing the file.
++     * @throws DateTimeParseException if the date format incorrect.
++     */
++    public TaskList(String input) throws IOException, DateTimeParseException {
++        this.taskList = new ArrayList();
++        BufferedReader reader = new BufferedReader(new StringReader(input));
++        String line = null;
++        while ((line = reader.readLine()) != null) {
++            String[] delimited = line.split(";");
++            if ("T".equals(delimited[1])) {
++                taskList.add(new ToDo(delimited[3]));
++            } else if ("E".equals(delimited[1])) {
++                taskList.add(new Event(delimited[3], LocalDate.parse(delimited[4])));
++            } else if ("D".equals(delimited[1])) {
++                taskList.add(new Deadline(delimited[3], LocalDate.parse(delimited[4])));
++            }
++            taskList.get(taskList.size() - 1).setStatus(Boolean.parseBoolean(delimited[2]));
++            taskList.get(taskList.size() - 1).setDoAfter(Integer.parseInt(delimited[5]));
++            taskList.get(taskList.size() - 1).setDoBefore(Integer.parseInt(delimited[6]));
++        }
++    }
++
++    /**
++     * Create a task list when there are no existing data.
++     */
++    public TaskList() {
++        this.taskList = new ArrayList();
++    }
++
++    /**
++     * Check if task list is empty.
++     *
++     * @return true if task list is empty
++     */
++    public boolean isEmpty() {
++        return taskList.isEmpty();
++    }
++
++    /**
++     * Get a specific task from the task list.
++     *
++     * @param i is the element index of the task.
++     * @return the task as a Task object.
++     */
++    public Task get(int i) {
++        return taskList.get(i);
++    }
++
++    /**
++     * Return the index of a task in the task list.
++     *
++     * @param task task object.
++     * @return task index.
++     */
++    public int getIndex(Task task) {
++        return taskList.indexOf(task);
++    }
++
++    /**
++     * @return the size of the task list.
++     */
++    public int size() {
++        return taskList.size();
++    }
++
++    /**
++     * Deletes a specific task from the task list.
++     *
++     * @param i is the element index of the task.
++     */
++    public void remove(int i) {
++        taskList.remove(i);
++    }
++
++    /**
++     * Creates a new task.
++     *
++     * @param task is Task object to be created.
++     */
++    public void add(Task task) {
++        taskList.add(task);
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/task/ToDo.java b/src/main/java/duke/task/ToDo.java
+new file mode 100644
+index 0000000..0814b67
+--- /dev/null
++++ b/src/main/java/duke/task/ToDo.java
+@@ -0,0 +1,8 @@
++package duke.task;
++
++/** Default type of task */
++public class ToDo extends Task {
++    public ToDo(String desc) {
++        super(desc, "T");
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/duke/ui/Ui.java b/src/main/java/duke/ui/Ui.java
+new file mode 100644
+index 0000000..405a603
+--- /dev/null
++++ b/src/main/java/duke/ui/Ui.java
+@@ -0,0 +1,81 @@
++package duke.ui;
++
++import java.util.Scanner;
++
++/**
++ * Text UI of the application.
++ */
++public class Ui {
++    protected Scanner in;
++    protected static final String LOGO = " ____        _        \n"
++            + "|  _ \\ _   _| | _____ \n"
++            + "| | | | | | | |/ / _ \\\n"
++            + "| |_| | |_| |   <  __/\n"
++            + "|____/ \\__,_|_|\\_\\___|\n";
++    protected static final String LINE = "_________________________________________________________________________\n";
++    protected static final String MSG_END = "Oyasumi~";
++    protected static final String MSG_GREETING = "Harrowwwwwww\nWut iz up?";
++    protected static final String MSG_UNKNOWN = "Sorry, I don't understand this :(";
++
++    public Ui() {
++        in = new Scanner(System.in);
++    }
++
++    /**
++     * A standardised format for all prints in the application.
++     *
++     * @param input is the string to be printed.
++     */
++    public static void print(String input) {
++        input = input.replace("\n", "\n\t");
++        System.out.println("\t" + input);
++    }
++
++    /**
++     *  Prints the welcome message when application is initialised.
++     */
++    public void showWelcome() {
++        System.out.println(LOGO + "\n" + MSG_GREETING);
++        showLine();
++    }
++
++    /**
++     * Reads and return the user input
++     *
++     * @return user input as String
++     */
++    public String readCommand() {
++        return in.nextLine();
++    }
++
++    /**
++     * Prints a single line. Used mainly as separators between commands and results.
++     */
++    public void showLine() {
++        System.out.println(LINE);
++    }
++
++    /**
++     * Prints a farewell message after application has been terminated by the user.
++     */
++    public void showEnd() {
++        print(MSG_END);
++    }
++
++    /**
++     * Prints the error message of an exception.
++     *
++     * @param err is the exception
++     */
++    public void showError(String err) {
++        print(err);
++    }
++
++    /**
++     * Prints a message when duke.command is unknown to the application.
++     */
++    public void showUnknown() {
++        print(MSG_UNKNOWN);
++    }
++
++}
+\ No newline at end of file
+diff --git a/src/main/java/ui/Ui.java b/src/main/java/ui/Ui.java
+deleted file mode 100644
+index 7cd555b..0000000
+--- a/src/main/java/ui/Ui.java
++++ /dev/null
+@@ -1,35 +0,0 @@
+-package ui;
+-
+-import java.util.Scanner;
+-
+-public class Ui {
+-    protected Scanner in;
+-
+-    public Ui() {
+-        in = new Scanner(System.in);
+-    }
+-
+-    public void newline(){
+-        System.out.println("_____________________________________________________________");
+-    }
+-    public void welcome(){
+-        newline();
+-        System.out.println("Hellu, I ish Dook!");
+-        newline();
+-    }
+-
+-    public String readCommand(){
+-        return in.nextLine();
+-    }
+-
+-    public void echo(String input) {
+-        System.out.println(input);
+-        newline();
+-    }
+-    public void bye(){
+-        System.out.println("Buai :(");
+-        newline();
+-        in.close();
+-    }
+-}
+-
+-- 
+2.30.2.windows.1
+
