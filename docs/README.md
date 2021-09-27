@@ -8,7 +8,6 @@ When you create your task list in Duke, it remembers your task so that you can r
 ### Different ways to view your list
 Duke allows you to view your task list in different ways; by date, status or everything.
 
-Description of the feature.
 
 ## Usage
 
