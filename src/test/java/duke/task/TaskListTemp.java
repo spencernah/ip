@@ -18,7 +18,7 @@ public class TaskListTemp extends TaskList {
 
     @Override
     public Task get(int indexNo) {
-        return doTask = new Task ("get " + indexNo);
+        return doTask = new Task("get " + indexNo);
     }
 
     @Override

@@ -10,11 +10,12 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.ToDo;
 import duke.task.TaskList;
+
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
-public class Duke{
+public class Duke {
 
     private Ui ui;
     private Parser parser;
@@ -24,15 +25,15 @@ public class Duke{
      *
      * @param filePath the file path of the save file for tasks storage.
      */
-    public Duke(String filePath){
+    public Duke(String filePath) {
         ui = new Ui();
         Storage storage = new Storage(filePath);
         TaskList tasks;
 
-        try{
+        try {
             tasks = new TaskList(storage.load());
-        }catch(IOException e){
-            if (!(e instanceof NoSuchFileException)){
+        } catch (IOException e) {
+            if (!(e instanceof NoSuchFileException)) {
                 ui.showLoadingError("Cannot load tasks. May overwrite old tasks, if continue");
                 e.printStackTrace();
             }
@@ -43,19 +44,19 @@ public class Duke{
         parser.capture("event", Event.getCommand(tasks, storage));
         parser.capture("deadline", Deadline.getCommand(tasks, storage));
         parser.capture("list", new ListCommand(tasks));
-        parser.capture("done", new DoneCommand(tasks,storage));
+        parser.capture("done", new DoneCommand(tasks, storage));
         parser.capture("delete", new DeleteCommand(tasks, storage));
         parser.capture("bye", new ByeCommand());
         parser.capture("find", new FindCommand(tasks));
     }
 
-    static void checkWord(String keyWord)throws DukeCheckLineException{
+    static void checkWord(String keyWord) throws DukeCheckLineException {
         String keyword = keyWord.toLowerCase();
 
         if (!keyword.equals("list") && !keyword.equals("bye")
                 && !keyword.equals("todo") && !keyword.equals("done")
                 && !keyword.equals("event") && !keyword.equals("deadline")
-                && !keyword.equals("delete") && !keyword.equals("find")){
+                && !keyword.equals("delete") && !keyword.equals("find")) {
             throw new DukeCheckLineException();
         }
     }
@@ -63,27 +64,27 @@ public class Duke{
     /**
      * Run Duke application.
      */
-    public void run(){
+    public void run() {
         ui.showWelcome();
         boolean isExit = false;
 
-        while(!isExit && ui.hasNextLine()){
+        while (!isExit && ui.hasNextLine()) {
             String[] fullCommand = ui.readCommand().split(" ");
             ui.printWithLine(List.of());
-            try{
+            try {
                 checkWord(fullCommand[0]);
                 Command c = parser.parse(fullCommand);
                 ui.printCommand(c.run(fullCommand));
                 isExit = c.isExit();
-            }catch(DukeException | IOException e){
+            } catch (DukeException | IOException e) {
                 ui.showError(e.getMessage());
-            }catch(DukeCheckLineException e){
+            } catch (DukeCheckLineException e) {
                 ui.showError("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new Duke("data/tasks.txt").run();
     }
 }
