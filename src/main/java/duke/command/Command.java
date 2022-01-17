@@ -1,6 +1,7 @@
 package duke.command;
 
 import duke.DukeException;
+
 import java.util.List;
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ public interface Command {
      *
      * @return false by default, the program should not exit when run this command.
      */
-    default boolean isExit(){
+    default boolean isExit() {
         return false;
     }
 }

@@ -7,7 +7,7 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
-    public Task(String description){
+    public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
@@ -15,7 +15,7 @@ public class Task {
     /**
      * Marks this task as done.
      */
-    public void markAsDone(){
+    public void markAsDone() {
         isDone = true;
     }
 
@@ -24,7 +24,7 @@ public class Task {
      *
      * @return status icon.
      */
-    public String getStatusIcon(){
+    public String getStatusIcon() {
         return (isDone ? "x" : " ");
     }
 
@@ -33,7 +33,7 @@ public class Task {
      *
      * @return this string task.
      */
-    public String toString(){
+    public String toString() {
         return "[" + getStatusIcon() + "]" + description;
     }
 
@@ -42,7 +42,8 @@ public class Task {
      *
      * @return a task list for saving.
      */
-    public List<String> getList(){
+    public List<String> getList() {
         return List.of(isDone ? "1" : "0", description);
     }
+
 }

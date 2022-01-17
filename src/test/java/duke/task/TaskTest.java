@@ -1,7 +1,9 @@
 package duke.task;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TaskTest {
@@ -20,13 +22,13 @@ class TaskTest {
 
     @Test
     void getListIncomplete() {
-        assertEquals(List.of("0", "read book") , task.getList());
+        assertEquals(List.of("0", "read book"), task.getList());
     }
 
     @Test
     void getListComplete() {
         task.markAsDone();
-        assertEquals(List.of("1", "read book") , task.getList());
+        assertEquals(List.of("1", "read book"), task.getList());
     }
 
     @Test
