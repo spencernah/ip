@@ -2,8 +2,9 @@ package duke.command;
 
 import duke.DukeException;
 
-import java.util.List;
 import java.io.IOException;
+import java.util.List;
+
 
 public interface Command {
 

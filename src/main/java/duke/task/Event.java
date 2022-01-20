@@ -27,7 +27,7 @@ public class Event extends Time {
     }
 
     /**
-     * To generate a Event detail and store in the tasks list according to user input.
+     * To generate an Event detail and store in the tasks list according to user input.
      *
      * @param tasks   the list of tasks;
      * @param storage to save the event detail of the task.
