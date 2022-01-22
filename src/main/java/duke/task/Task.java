@@ -22,7 +22,7 @@ public class Task {
     /**
      * Display the status icon of this task (" " or "x" symbols) to the user.
      *
-     * @return status icon.
+     * @return Status icon.
      */
     public String getStatusIcon() {
         return (isDone ? "x" : " ");
@@ -31,7 +31,7 @@ public class Task {
     /**
      * Return a list of strings to user.
      *
-     * @return this string task.
+     * @return This string task.
      */
     public String toString() {
         return "[" + getStatusIcon() + "]" + description;
@@ -40,7 +40,7 @@ public class Task {
     /**
      * Return a list of strings that can be saved.
      *
-     * @return a task list for saving.
+     * @return A task list for saving.
      */
     public List<String> getList() {
         return List.of(isDone ? "1" : "0", description);

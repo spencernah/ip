@@ -16,8 +16,8 @@ public class FindCommand implements Command {
     /**
      * Return a message with the matching task list.
      *
-     * @param fullCommand array of command from the user input.
-     * @return a matching task list.
+     * @param fullCommand Array of command from the user input.
+     * @return A matching task list.
      */
     @Override
     public List<String> run(String[] fullCommand) {

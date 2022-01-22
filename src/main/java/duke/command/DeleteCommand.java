@@ -19,11 +19,11 @@ public class DeleteCommand implements Command {
     /**
      * Remove a task according to the index input by the user.
      *
-     * @param fullCommand fullCommand array of command from the user input.
-     * @return message to the user.
-     * @throws NumberFormatException     catch a error if the user input is not a number.
-     * @throws IndexOutOfBoundsException catch a error if the input index is out of bound.
-     * @throws IOException               if the task cannot be recorded.
+     * @param fullCommand Array of command from the user input.
+     * @return Message to the user.
+     * @throws NumberFormatException Catch an error if the user input is not a number.
+     * @throws IndexOutOfBoundsException Catch an error if the input index is out of bound.
+     * @throws IOException If the task cannot be recorded.
      */
     @Override
     public List<String> run(String[] fullCommand) throws NumberFormatException, IndexOutOfBoundsException, IOException {

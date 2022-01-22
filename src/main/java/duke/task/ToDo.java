@@ -23,9 +23,9 @@ public class ToDo extends Task {
     /**
      * To generate a Todo detail and store in the tasks list according to user input.
      *
-     * @param tasks   the list of tasks;
-     * @param storage to save the todo detail of the task.
-     * @return a command which generates todo task.
+     * @param tasks The list of tasks;
+     * @param storage To save the todo detail of the task.
+     * @return A command which generates todo task.
      */
     public static Command getCommand(TaskList tasks, Storage storage) {
         return fullCommand -> {
@@ -47,7 +47,7 @@ public class ToDo extends Task {
     /**
      * Return a list of strings to user.
      *
-     * @return this string task.
+     * @return This string task.
      */
     @Override
     public String toString() {
@@ -57,7 +57,7 @@ public class ToDo extends Task {
     /**
      * Return a list of strings that can be saved.
      *
-     * @return a task list for saving.
+     * @return A task list for saving.
      */
     @Override
     public List<String> getList() {

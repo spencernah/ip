@@ -19,11 +19,11 @@ public class DoneCommand implements Command {
     /**
      * Marks the task as done and returns the message to user.
      *
-     * @param fullCommand array of command from the user input.
-     * @return a message to user.
-     * @throws NumberFormatException     catch an error if the user input is not a number.
-     * @throws IndexOutOfBoundsException catch an error if the input index is out of bound.
-     * @throws IOException               if the task cannot be recorded.
+     * @param fullCommand Array of command from the user input.
+     * @return A message to user.
+     * @throws NumberFormatException Catch an error if the user input is not a number.
+     * @throws IndexOutOfBoundsException Catch an error if the input index is out of bound.
+     * @throws IOException If the task cannot be recorded.
      */
     @Override
     public List<String> run(String[] fullCommand) throws NumberFormatException, IndexOutOfBoundsException, IOException {

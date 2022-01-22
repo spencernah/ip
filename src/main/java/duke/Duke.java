@@ -8,22 +8,21 @@ import duke.command.FindCommand;
 import duke.command.ListCommand;
 import duke.task.Deadline;
 import duke.task.Event;
-import duke.task.ToDo;
 import duke.task.TaskList;
+import duke.task.ToDo;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 public class Duke {
-
     private Ui ui;
     private Parser parser;
 
     /**
      * Constructs Duke application.
      *
-     * @param filePath the file path of the save file for tasks storage.
+     * @param filePath The file path of the save file for tasks storage.
      */
     public Duke(String filePath) {
         ui = new Ui();
