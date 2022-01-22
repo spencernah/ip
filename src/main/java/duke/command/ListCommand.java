@@ -15,8 +15,8 @@ public class ListCommand implements Command {
     /**
      * Return a message with the task list.
      *
-     * @param fullCommand array of command from the user input.
-     * @return message to the user.
+     * @param fullCommand Array of command from the user input.
+     * @return Message to the user.
      */
     @Override
     public List<String> run(String[] fullCommand) {

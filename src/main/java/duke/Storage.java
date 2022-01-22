@@ -16,8 +16,8 @@ public class Storage {
     /**
      * Save the provided list of lines to a file.
      *
-     * @param lines list of lines to save.
-     * @throws IOException if the task cannot be recorded.
+     * @param lines List of lines to save.
+     * @throws IOException If the task cannot be recorded.
      */
     public void store(List<String> lines) throws IOException {
         Files.write(path, lines);
@@ -26,8 +26,8 @@ public class Storage {
     /**
      * Read the file and return the list of lines.
      *
-     * @return list of lines loaded.
-     * @throws IOException if the lines cannot be loaded.
+     * @return List of lines loaded.
+     * @throws IOException If the lines cannot be loaded.
      */
     List<String> load() throws IOException {
         return Files.readAllLines(path);

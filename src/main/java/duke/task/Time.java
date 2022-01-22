@@ -15,7 +15,7 @@ public class Time extends Task {
     /**
      * To convert the time for saving.
      *
-     * @return time as a string.
+     * @return Time as a string.
      */
     String convertSaveTimeString() {
         return formatter.format(time);
@@ -24,7 +24,7 @@ public class Time extends Task {
     /**
      * Send a converted time string to display to the user.
      *
-     * @return time as a string.
+     * @return A formatted timing.
      */
     String convertTimeString() {
         return DateTimeFormatter.ofPattern("MMM d yyyy HHmm").format(time);

@@ -22,7 +22,7 @@ public class Duke {
     /**
      * Constructs Duke application.
      *
-     * @param filePath the file path of the save file for tasks storage.
+     * @param filePath The file path of the save file for tasks storage.
      */
     public Duke(String filePath) {
         ui = new Ui();

@@ -16,8 +16,8 @@ public class TaskList {
     /**
      * Parse the given string to a task.
      *
-     * @param line to parse.
-     * @return parsed task.
+     * @param line Line to parse.
+     * @return Parsed task.
      */
     private Task parseTask(String line) {
         String[] load = line.split("\\|");
@@ -44,7 +44,7 @@ public class TaskList {
     /**
      * Constructs a task list with the parsed tasks.
      *
-     * @param lines to parse tasks.
+     * @param lines List of lines to parse tasks.
      */
     public TaskList(List<String> lines) {
         for (String line : lines) {
@@ -55,7 +55,7 @@ public class TaskList {
     /**
      * Converts the task list into a list of lines for saving.
      *
-     * @return a list of converted tasks.
+     * @return A list of converted tasks.
      */
     public List<String> convertAsLines() {
         List<String> saveIn = new ArrayList<>();
@@ -68,8 +68,8 @@ public class TaskList {
     /**
      * Converts the provided task to a string for saving.
      *
-     * @param task to convert into a string.
-     * @return string for saving.
+     * @param task To convert into a string.
+     * @return String for saving.
      */
     private String getSaveIn(Task task) {
         StringJoiner joiner = new StringJoiner("|");
@@ -82,7 +82,7 @@ public class TaskList {
     /**
      * Adds a task to the task list.
      *
-     * @param task to add.
+     * @param task Task to add.
      */
     public void add(Task task) {
         tasks.add(task);
@@ -91,8 +91,8 @@ public class TaskList {
     /**
      * Remove a task from the task list according to index provided by the user.
      *
-     * @param index position of the task in the list.
-     * @return the removed task.
+     * @param index Position of the task in the list.
+     * @return The removed task.
      */
     public Task remove(int index) {
         return tasks.remove(index);
@@ -101,8 +101,8 @@ public class TaskList {
     /**
      * Return the task of given index in the list.
      *
-     * @param index position of the task in the list.
-     * @return the requested task.
+     * @param index Position of the task in the list.
+     * @return The requested task.
      */
     public Task get(int index) {
         return tasks.get(index);
@@ -111,7 +111,7 @@ public class TaskList {
     /**
      * Return of the size of the task list.
      *
-     * @return the size of the task list.
+     * @return The size of the task list.
      */
     public int size() {
         return tasks.size();

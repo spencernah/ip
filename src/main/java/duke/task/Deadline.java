@@ -29,9 +29,9 @@ public class Deadline extends Time {
     /**
      * To generate a Deadline detail and store in the tasks list according to user input.
      *
-     * @param tasks   the list of tasks;
-     * @param storage to save the deadline detail of the task.
-     * @return a command which generates deadlines task.
+     * @param tasks The list of tasks;
+     * @param storage To save the deadline detail of the task.
+     * @return A command which generates deadlines task.
      */
     public static Command getCommand(TaskList tasks, Storage storage) {
         return fullCommand -> {
@@ -59,7 +59,7 @@ public class Deadline extends Time {
     /**
      * Return a list of strings that can be saved.
      *
-     * @return a task list for saving.
+     * @return A task list for saving.
      */
     @Override
     public List<String> getList() {
@@ -73,7 +73,7 @@ public class Deadline extends Time {
     /**
      * Return a list of strings to user.
      *
-     * @return this string task.
+     * @return This string task.
      */
     @Override
     public String toString() {

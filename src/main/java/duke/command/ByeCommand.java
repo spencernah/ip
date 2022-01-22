@@ -7,8 +7,8 @@ public class ByeCommand implements Command {
     /**
      * Returns the message to user when he/she leave.
      *
-     * @param line array of string input from user.
-     * @return message to show the user.
+     * @param line Array of string input from user.
+     * @return Message to show the user.
      */
     @Override
     public List<String> run(String[] line) {
@@ -18,7 +18,7 @@ public class ByeCommand implements Command {
     /**
      * Return true to exit the program.
      *
-     * @return true when execute this command to exit the program.
+     * @return True, when execute this command to exit the program.
      */
     @Override
     public boolean isExit() {
