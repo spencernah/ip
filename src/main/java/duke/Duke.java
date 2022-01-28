@@ -86,4 +86,23 @@ public class Duke {
     public static void main(String[] args) {
         new Duke("data/tasks.txt").run();
     }
+
+    String getResponse(String input) {
+        try {
+            String[] fullCommand = input.split(" ");
+            Command command = parser.parse(fullCommand);
+            return String.join("\n", command.run(fullCommand));
+        } catch (DukeException e) {
+            return e.getMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    boolean isExit(String input) {
+        String[] fullCommand = input.split(" ");
+        return parser.parse(fullCommand).isExit();
+
+    }
 }
