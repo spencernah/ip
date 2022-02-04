@@ -16,7 +16,7 @@ public class ToDo extends Task {
 
     public static void checkDescription(String[] command) throws DukeException {
         if (command.length == 1) {
-            throw new DukeException();
+            throw new DukeException("☹ OOPS!!!, the description cannot be empty.");
         }
     }
 

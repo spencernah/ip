@@ -16,7 +16,7 @@ public class Event extends Time {
 
     public static void checkDescription(int index) throws DukeException {
         if (index == 1) {
-            throw new DukeException();
+            throw new DukeException("☹ OOPS!!!, the description cannot be empty.");
         }
     }
 

@@ -33,7 +33,7 @@ public class Duke {
             tasks = new TaskList(storage.load());
         } catch (IOException e) {
             if (!(e instanceof NoSuchFileException)) {
-                ui.showLoadingError("Cannot load tasks. May overwrite old tasks, if continue");
+                ui.showLoadingError("☹ OOPS!!! Cannot load tasks. May overwrite old tasks, if continue");
                 e.printStackTrace();
             }
             tasks = new TaskList();
@@ -75,8 +75,11 @@ public class Duke {
                 Command c = parser.parse(fullCommand);
                 ui.printCommand(c.run(fullCommand));
                 isExit = c.isExit();
-            } catch (DukeException | IOException e) {
+            } catch (DukeException e) {
                 ui.showError(e.getMessage());
+            } catch (IOException e) {
+                ui.showError(e.getMessage());
+                e.printStackTrace();
             } catch (DukeCheckLineException e) {
                 ui.showError("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
@@ -102,7 +105,10 @@ public class Duke {
 
     boolean isExit(String input) {
         String[] fullCommand = input.split(" ");
-        return parser.parse(fullCommand).isExit();
-
+        try {
+            return parser.parse(fullCommand).isExit();
+        } catch (DukeException e) {
+            return false;
+        }
     }
 }

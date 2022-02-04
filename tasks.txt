@@ -3,3 +3,6 @@ T|0|adfa
 T|0|work
 T|0|FFF
 T|0|d
+D|0|return book|2/12/2021 1800
+E|0|project meeting|2/12/2021 1700
+D|0|return book|2/12/2021 1800
