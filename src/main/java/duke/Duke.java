@@ -6,6 +6,7 @@ import duke.command.DeleteCommand;
 import duke.command.DoneCommand;
 import duke.command.FindCommand;
 import duke.command.ListCommand;
+import duke.command.ViewSchedulesCommand;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.TaskList;
@@ -47,6 +48,7 @@ public class Duke {
         parser.capture("delete", new DeleteCommand(tasks, storage));
         parser.capture("bye", new ByeCommand());
         parser.capture("find", new FindCommand(tasks));
+        parser.capture("viewschedules", new ViewSchedulesCommand(tasks));
     }
 
     static void checkWord(String keyWord) throws DukeCheckLineException {
@@ -55,7 +57,8 @@ public class Duke {
         if (!keyword.equals("list") && !keyword.equals("bye")
                 && !keyword.equals("todo") && !keyword.equals("done")
                 && !keyword.equals("event") && !keyword.equals("deadline")
-                && !keyword.equals("delete") && !keyword.equals("find")) {
+                && !keyword.equals("delete") && !keyword.equals("find")
+                && !keyword.equals("viewschedules")) {
             throw new DukeCheckLineException();
         }
     }
