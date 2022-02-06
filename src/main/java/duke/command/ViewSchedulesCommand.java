@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class ViewSchedulesCommand implements Command {
     private TaskList tasks;
 
@@ -38,7 +37,6 @@ public class ViewSchedulesCommand implements Command {
                 countNumber++;
                 message.add(countNumber + "." + task);
             }
-
         }
         return message;
     }

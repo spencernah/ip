@@ -57,7 +57,8 @@ public class Duke {
         if (!keyword.equals("list") && !keyword.equals("bye")
                 && !keyword.equals("todo") && !keyword.equals("done")
                 && !keyword.equals("event") && !keyword.equals("deadline")
-                && !keyword.equals("delete") && !keyword.equals("find")) {
+                && !keyword.equals("delete") && !keyword.equals("find")
+                && !keyword.equals("viewschedules")) {
             throw new DukeCheckLineException();
         }
     }
