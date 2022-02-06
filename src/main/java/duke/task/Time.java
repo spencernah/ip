@@ -1,5 +1,6 @@
 package duke.task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -28,6 +29,16 @@ public class Time extends Task {
      */
     String convertTimeString() {
         return DateTimeFormatter.ofPattern("MMM d yyyy HHmm").format(time);
+    }
+
+    /**
+     * Return whether this task is on the given date.
+     *
+     * @param date Date which the task is checked to be on.
+     * @return If the date match the given date, return the task.
+     */
+    public boolean isOn(LocalDate date) {
+        return time.toLocalDate().isEqual(date);
     }
 
 }
