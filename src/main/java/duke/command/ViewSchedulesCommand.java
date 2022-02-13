@@ -3,9 +3,11 @@ package duke.command;
 import duke.task.Task;
 import duke.task.TaskList;
 import duke.task.Time;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,12 @@ public class ViewSchedulesCommand implements Command {
         this.tasks = tasks;
     }
 
+    /**
+     * Return the message the user wants to see.
+     *
+     * @param fullComand Array of command from the user input.
+     * @return Message to show the user.
+     */
     @Override
     public List<String> run(String[] fullComand) {
         LocalDate dateFormat;

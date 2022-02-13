@@ -51,7 +51,7 @@ public class Duke {
         parser.capture("viewschedules", new ViewSchedulesCommand(tasks));
     }
 
-    static void checkWord(String keyWord) throws DukeCheckLineException {
+    static void wordChecker(String keyWord) throws DukeCheckLineException {
         String keyword = keyWord.toLowerCase();
 
         if (!keyword.equals("list") && !keyword.equals("bye")
@@ -71,10 +71,10 @@ public class Duke {
         boolean isExit = false;
 
         while (!isExit && ui.hasNextLine()) {
-            String[] fullCommand = ui.readCommand().split(" ");
+            String[] fullCommand = ui.commandReader().split(" ");
             ui.printWithLine(List.of());
             try {
-                checkWord(fullCommand[0]);
+                wordChecker(fullCommand[0]);
                 Command c = parser.parse(fullCommand);
                 ui.printCommand(c.run(fullCommand));
                 isExit = c.isExit();

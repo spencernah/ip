@@ -1,10 +1,4 @@
-T|1|afa
-T|0|adfa
-T|0|work
-T|0|FFF
-T|0|d
-D|0|return book|2/12/2021 1800
+D|1|return book|2/12/2021 1800
 E|0|project meeting|2/12/2021 1700
-D|0|return book|2/12/2021 1800
-D|0|afda|12/2/2022 1200
-E|0|afadf|23/2/2022 1200
+T|0|borrow book
+T|0|submit post-lecture quiz
