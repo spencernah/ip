@@ -31,7 +31,7 @@ public class Ui {
      *
      * @return Next line of input.
      */
-    String readCommand() {
+    String commandReader() {
         return in.nextLine();
     }
 
