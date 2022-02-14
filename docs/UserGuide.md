@@ -1,6 +1,6 @@
 # User Guide
 
-DukePro is a **desktop app for managing tasks, optimized for use via a Command Line Interface (CLI)**.
+Tasks Management System is a **desktop app for managing tasks, optimized for use via a Command Line Interface (CLI)**.
 
 ## Setting up in Intellij
 
@@ -8,30 +8,20 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 
 1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
 1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
+    1. Click `Open`.
+    1. Select the project directory, and click `OK`.
+    1. If there are any further prompts, accept the defaults.
 1. Configure the project to use **JDK 11** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
    In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Launcher.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+1. After that, locate the `src/main/java/Launcher.java` file, right-click it, and choose `Run Launcher.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output: <br>
+   ![Image of  Ui_launcher](Ui_launcher.png)
 
 ## Quick Start
 1. Ensure you have Java ```11 ``` or above installed in your computer.
-1. Download the latest ```ip.jar ``` from [here](https://github.com/e0373972/ip/releases).
+1. Download the latest ```duke.jar ``` from [here](https://github.com/e0373972/ip/releases).
 1. Copy the file to the folder you want to use as the home folder for your DukePro.
-1. Create an empty folder name  ```data ``` (refer to the image below).<br/>
-   ![Image of  filepaths](filepaths.png)
-1. Open Command Prompt and type ```java -jar ip.jar``` to start the app.<br/>
-   ![Image of example](example.png)
-1. Type the command in the command box and press Enter to execute it.<br/>
+1. Open Command Prompt and type ```java -jar duke.jar``` to start the app.<br/>
+1. Type the command in the input box and press Enter to execute it.<br/>
    Some example commands you can try:
 * ```todo borrow book ```: Add todo task ```borrow book ``` to the task list.
 * ```event project meeting /at 2/12/2021 1700 ```: Add event  ```project meeting (at Dec 2 2021 1700) ``` to the task list.
@@ -40,6 +30,7 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
 * ```done 2 ```: Mark the 2nd task as done.
 * ```delete 2 ```: Delete the 2nd task in the list.
 * ```find book ```: Search the task with keyword of ```book```.
+* ```viewschedules 2/12/2021  ```: Displays the schedule for the specified date ```Dec 2 2021```.
 * ```bye ```: Exits the app.
 
 ## Features
@@ -123,6 +114,15 @@ Format: ```find KEYWORD ```
 Example:
 * ```find book ```
 
+### View Schedules: ```viewschedules ```
+
+Displays the schedule for the specified date.
+
+Format: ```viewschedules dd/mm/yyy ```
+
+Example:
+* ```viewschedules 2/12/2021 ```
+
 ### Exiting the program: ```bye ```
 
 Exits the program.
@@ -150,5 +150,6 @@ To run and show the data in another computer, you need to follow the ```Quick St
 **Done** | ```done INDEX ``` e.g., ```done 2 ```
 **Delete** | ```delete INDEX ``` e.g., ```delete 2 ```
 **Find** | ```find KEYWORD ``` e.g., ```find book ```
+**View schedules** | ```viewschedules dd/mm/yyy ``` e.g., ```viewschedules 2/12/2021 ```
 **Bye** | ```bye ``` e.g., ```bye ```
 
