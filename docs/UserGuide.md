@@ -1,6 +1,6 @@
 # User Guide
 
-DukePro is a **desktop app for managing tasks, optimized for use via a Command Line Interface (CLI)**.
+Tasks Management System is a **desktop app for managing tasks, optimized for use via a Command Line Interface (CLI)**.
 
 ## Setting up in Intellij
 
