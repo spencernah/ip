@@ -48,14 +48,14 @@ public class Duke {
     /** Runs the program until termination.  */
     public void run() {
         ui.showWelcome();
-        boolean firstRun = true;
+        boolean isFirstRun = true;
         boolean isExit = false;
         Command c;
 
         while (!isExit) {
             try {
-                if (firstRun) {
-                    firstRun = false;
+                if (isFirstRun) {
+                    isFirstRun = false;
                     c = Parser.parse("reminder");
                     c.execute(tasks, ui, storage);
                     ui.showLine();

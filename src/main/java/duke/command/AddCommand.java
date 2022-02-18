@@ -21,7 +21,7 @@ public class AddCommand extends Command {
     protected LocalDate date;
 
     /**
-     * Mainly for Deadline and Event tasks.
+     * Add a Deadline or Event task.
      *
      * @param type task type.
      * @param desc task description.
@@ -34,7 +34,7 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Mainly for ToDo tasks.
+     * Add a ToDo task.
      *
      * @param type task type.
      * @param desc task description.
@@ -60,7 +60,7 @@ public class AddCommand extends Command {
         } else if (this.type == "deadline") {
             tasks.add(new Deadline(this.desc, this.date));
         }
-        int index = tasks.size()-1;
+        int index = tasks.size() - 1;
         Task task = tasks.get(index);
         storage.append(index + ";" + Utility.constructInput(task));
         ui.print("New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index+1) + " tasks in your list");

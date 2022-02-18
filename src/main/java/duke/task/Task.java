@@ -9,7 +9,7 @@ public class Task {
     protected boolean isDone;
     protected String type;
     protected int doAfter = -1;
-    protected int doBefore =-1;
+    protected int doBefore = -1;
 
     /**
      * @param desc is the description of the task.

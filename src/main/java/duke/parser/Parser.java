@@ -47,51 +47,51 @@ public class Parser {
         String date;
 
         switch (keyword) {
-            case (KEYWORD_EXIT_1):
-            case (KEYWORD_EXIT_2):
-                return new ExitCommand();
-            case (KEYWORD_LIST):
-                return new ViewAllCommand();
-            case(KEYWORD_PENDING_1):
-            case(KEYWORD_PENDING_2):
-                return new ViewByStatusCommand();
-            case(KEYWORD_LIST_DATE):
-                date = getCleanDateStr(input);
-                return new ViewByDateCommand(LocalDate.parse(date));
-            case(KEYWORD_FIND):
-                parameter = removeKeyword(input, KEYWORD_FIND).trim();
-                if (parameter.length() == 0) {
-                    throw new DukeException("Please enter a parameter after \"find\"");
-                }
-                return new FindCommand(parameter);
-            case(KEYWORD_REMINDER):
-                return new ViewByUpcomingCommand();
-            case(KEYWORD_DONE):
-                parameter = removeKeyword(input, KEYWORD_DONE);
-                if (Utility.isNumber(parameter)) {
-                    return new DoneCommand( Integer.parseInt(parameter) - 1);
-                } else {
-                    throw new DukeException(ERR_NOT_A_INT);
-                }
-            case(KEYWORD_DELETE):
-                parameter = removeKeyword(input, KEYWORD_DELETE);
-                if (Utility.isNumber(parameter)) {
-                    return new DeleteCommand( Integer.parseInt(parameter) - 1);
-                } else {
-                    throw new DukeException(ERR_NOT_A_INT);
-                }
-            case(KEYWORD_DEADLINE):
-            case(KEYWORD_EVENT):
-                parameter = removeKeyword(input, keyword);
-                checkDesc(parameter);
-                date = getCleanDateStr(input);
-                LocalDate dateLocal = LocalDate.parse(date);
-                desc = parameter.substring(0, parameter.lastIndexOf("/")).trim();
-                return new AddCommand(keyword, desc, dateLocal);
-            case(KEYWORD_TODO):
-                desc = removeKeyword(input, keyword);
-                checkDesc(desc);
-                return new AddCommand(keyword, desc);
+        case KEYWORD_EXIT_1:
+        case KEYWORD_EXIT_2:
+            return new ExitCommand();
+        case KEYWORD_LIST:
+            return new ViewAllCommand();
+        case KEYWORD_PENDING_1:
+        case KEYWORD_PENDING_2:
+            return new ViewByStatusCommand();
+        case KEYWORD_LIST_DATE:
+            date = getCleanDateStr(input);
+            return new ViewByDateCommand(LocalDate.parse(date));
+        case KEYWORD_FIND:
+            parameter = removeKeyword(input, KEYWORD_FIND).trim();
+            if (parameter.length() == 0) {
+                throw new DukeException("Please enter a parameter after \"find\"");
+            }
+            return new FindCommand(parameter);
+        case KEYWORD_REMINDER:
+            return new ViewByUpcomingCommand();
+        case KEYWORD_DONE:
+            parameter = removeKeyword(input, KEYWORD_DONE);
+            if (Utility.isNumber(parameter)) {
+                return new DoneCommand( Integer.parseInt(parameter) - 1);
+            } else {
+                throw new DukeException(ERR_NOT_A_INT);
+            }
+        case KEYWORD_DELETE:
+            parameter = removeKeyword(input, KEYWORD_DELETE);
+            if (Utility.isNumber(parameter)) {
+                return new DeleteCommand( Integer.parseInt(parameter) - 1);
+            } else {
+                throw new DukeException(ERR_NOT_A_INT);
+            }
+        case KEYWORD_DEADLINE:
+        case KEYWORD_EVENT:
+            parameter = removeKeyword(input, keyword);
+            checkDesc(parameter);
+            date = getCleanDateStr(input);
+            LocalDate dateLocal = LocalDate.parse(date);
+            desc = parameter.substring(0, parameter.lastIndexOf("/")).trim();
+            return new AddCommand(keyword, desc, dateLocal);
+        case KEYWORD_TODO:
+            desc = removeKeyword(input, keyword);
+            checkDesc(desc);
+            return new AddCommand(keyword, desc);
         }
         return new UnknownCommand();
     }
@@ -105,23 +105,17 @@ public class Parser {
     private static String getKeyword(String input) {
         if (input.matches(KEYWORD_DONE + ".*")) {
             return KEYWORD_DONE;
-        }
-        else if (input.matches(KEYWORD_DELETE + ".*")) {
+        } else if (input.matches(KEYWORD_DELETE + ".*")) {
             return KEYWORD_DELETE;
-        }
-        else if (input.matches(KEYWORD_DEADLINE + ".*")) {
+        } else if (input.matches(KEYWORD_DEADLINE + ".*")) {
             return KEYWORD_DEADLINE;
-        }
-        else if (input.matches(KEYWORD_EVENT + ".*")) {
+        } else if (input.matches(KEYWORD_EVENT + ".*")) {
             return KEYWORD_EVENT;
-        }
-        else if (input.matches(KEYWORD_TODO + ".*")) {
+        } else if (input.matches(KEYWORD_TODO + ".*")) {
             return KEYWORD_TODO;
-        }
-        else if (input.matches(KEYWORD_LIST_DATE + ".*")) {
+        } else if (input.matches(KEYWORD_LIST_DATE + ".*")) {
             return KEYWORD_LIST_DATE;
-        }
-        else if (input.matches(KEYWORD_FIND + ".*")) {
+        } else if (input.matches(KEYWORD_FIND + ".*")) {
             return KEYWORD_FIND;
         }
         return input;
@@ -194,15 +188,15 @@ public class Parser {
      * @return a date string in "yyyy-mm-dd" format.
      */
     private static String changeDateFormat (String date) {
-        String day = date.substring(date.lastIndexOf("-")+1);
+        String day = date.substring(date.lastIndexOf("-") + 1);
         if (day.length() == 1) {
             day = "0" + day;
         }
-        String month = date.substring(date.indexOf("-")+1, date.lastIndexOf("-"));
+        String month = date.substring(date.indexOf("-") + 1, date.lastIndexOf("-"));
         if (month.length() == 1) {
             month = "0" + month;
         }
-        String year = date.substring(0,4);
+        String year = date.substring(0, 4);
         return year + "-" + month + "-" + day;
     }
 

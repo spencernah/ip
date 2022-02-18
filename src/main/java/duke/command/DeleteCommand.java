@@ -24,7 +24,7 @@ public class DeleteCommand extends Command {
 
     /**
      * Delete a specific task from the task list.
-     * Set the DoAfter and DoBefore of the parent and child task to -1 (if applicable).
+     * If deleted task has a parent or child task, update them to accordingly.
      *
      *
      * @param tasks task list.

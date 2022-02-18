@@ -40,7 +40,7 @@ public class FindCommand extends Command {
         String input = "";
         for (int i = 0; i < tasks.size(); ++i) {
             if (tasks.get(i).getDesc().matches(".*" + this.keyword + ".*")) {
-                input += "\t" + (i+1) + ". "+ tasks.get(i).getStatusIconAndDesc() + "\n";
+                input += "\t" + (i + 1) + ". "+ tasks.get(i).getStatusIconAndDesc() + "\n";
             }
         }
         return input;
