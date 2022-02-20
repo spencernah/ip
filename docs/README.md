@@ -1,7 +1,6 @@
-# TASKS MANAGEMENT SYSTEM (TMS)
+# DukePro
 
-TASKS MANAGEMENT SYSTEM (TMS) is a desktop app for managing expenses, optimized for use via a Command Line
-Interface (CLI)
+DukePro is a desktop app for managing tasks, optimized for use via a Command Line Interface (CLI), while still having the benefits of a Graphical User Interface (GUI).
 
 Useful links:
 * [User Guide](UserGuide.md)
