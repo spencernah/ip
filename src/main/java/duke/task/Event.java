@@ -33,6 +33,16 @@ public class Event extends Task {
 
     /** @return the task type, task status (as an icon), task description and task date (in "dd mm yyyy" format). */
     public String getTypeStatusDesc() {
-        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (at: " + getFormattedDate() + ")";
+        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (on: " + getFormattedDate() + ")";
+    }
+
+    /** @return the task type, task status (as an icon) and task description and notes. */
+    public String getTypeStatusDescNotes() {
+        String output = "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc
+                + " (on: " + getFormattedDate() + ")";
+        if (hasNotes()) {
+            output = output.concat("\n\t: " + this.notes);
+        }
+        return output;
     }
 }

@@ -19,4 +19,5 @@ public class ErrorMessages {
     public static final String INCORRECT_SYNTAX_TASK_NO_DESC = "Task Description cannot be empty!!";
     public static final String INCORRECT_SYNTAX_NOTES_MISSING_TEXT = "Please enter notes to be added!!";
     public static final String INCORRECT_SYNTAX_LIST_NOTES = "Please enter a parameter after \"list notes\"";
+    public static final String MISSING_DATE = "Please input a date! (Reminder: Lead the date with \"/\")";
 }

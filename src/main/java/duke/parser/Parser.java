@@ -10,6 +10,7 @@ import duke.command.list.FilterByNotesCommand;
 import duke.command.list.FilterByStatusCommand;
 import duke.command.list.FilterByUpcomingCommand;
 import duke.command.list.ListAllCommand;
+import duke.command.list.ListNotesCommand;
 import duke.command.notes.AddNotesCommand;
 import duke.command.notes.DeleteNotesCommand;
 import duke.command.notes.UpdateNotesCommand;
@@ -55,10 +56,7 @@ public class Parser {
             hasParam = param.length() > 0;
             isParamANumber = Utility.isNumber(param);
         }
-        if (hasDate(input)) {
-            dateStr = getDateAsStr(input);
-            date = LocalDate.parse(dateStr);
-        }
+
         if (hasNotes(input)) {
             notes = getNotes(input);
         }
@@ -76,14 +74,21 @@ public class Parser {
         case Keyword.LIST_BY_STATUS_COMPLETED_2:
             return new FilterByStatusCommand("completed");
         case Keyword.LIST_BY_DATE:
+            if (hasDate(input)) {
+                dateStr = getDateAsStr(input);
+                date = LocalDate.parse(dateStr);
+            }
             return new FilterByDateCommand(date);
+        case Keyword.LIST_BY_NOTES_1:
+        case Keyword.LIST_BY_NOTES_2:
+            return new ListNotesCommand();
         case Keyword.FIND:
             if (hasParam) {
                 return new FilterByDescCommand(param);
             } else {
                 throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_FIND);
             }
-        case Keyword.LIST_BY_NOTES:
+        case Keyword.FIND_BY_NOTES:
             if (hasParam) {
                 return new FilterByNotesCommand(param);
             } else if (notes.length() > 0) {
@@ -107,6 +112,12 @@ public class Parser {
             }
         case Keyword.DEADLINE:
         case Keyword.EVENT:
+            if (hasDate(input)) {
+                dateStr = getDateAsStr(input);
+                date = LocalDate.parse(dateStr);
+            } else {
+                throw new DukeException(ErrorMessages.MISSING_DATE);
+            }
             desc = getDesc(param);
             return new AddCommand(keyword, desc, date, notes);
         case Keyword.TODO:
@@ -114,6 +125,10 @@ public class Parser {
             return new AddCommand(keyword, desc, notes);
         case Keyword.DOAFTER_1:
         case Keyword.DOAFTER_2:
+            int indexFirstDelimiter = param.indexOf(" ");
+            if (indexFirstDelimiter < 0) {
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
+            }
             String taskIndex1 = param.substring(0, param.indexOf(" "));
             checkDoAfterSyntax(param);
             String taskIndex2 = param.substring(param.lastIndexOf("/") + 1).trim();
@@ -173,6 +188,7 @@ public class Parser {
      * @return keyword of the duke.command.
      */
     private static String getKeyword(String input) {
+        input = input.toLowerCase();
         if (input.matches(Keyword.DONE + ".*")) {
             return Keyword.DONE;
         } else if (input.matches(Keyword.DELETE + ".*")) {
@@ -185,8 +201,6 @@ public class Parser {
             return Keyword.TODO;
         } else if (input.matches(Keyword.LIST_BY_DATE + ".*")) {
             return Keyword.LIST_BY_DATE;
-        } else if (input.matches(Keyword.FIND + ".*")) {
-            return Keyword.FIND;
         } else if (input.matches(Keyword.DOAFTER_1 + ".*")) {
             return Keyword.DOAFTER_1;
         } else if (input.matches(Keyword.DOAFTER_2 + ".*")) {
@@ -203,8 +217,14 @@ public class Parser {
             return Keyword.NOTES_DELETE_1;
         } else if (input.matches(Keyword.NOTES_DELETE_2 + ".*")) {
             return Keyword.NOTES_DELETE_2;
-        } else if (input.matches(Keyword.LIST_BY_NOTES + ".*")) {
-            return Keyword.LIST_BY_NOTES;
+        } else if (input.matches(Keyword.FIND_BY_NOTES + ".*")) {
+            return Keyword.FIND_BY_NOTES;
+        } else if (input.matches(Keyword.LIST_BY_NOTES_1 + ".*")) {
+            return Keyword.LIST_BY_NOTES_1;
+        } else if (input.matches(Keyword.LIST_BY_NOTES_2 + ".*")) {
+            return Keyword.LIST_BY_NOTES_2;
+        } else if (input.matches(Keyword.FIND + ".*")) {
+            return Keyword.FIND;
         }
         return input;
     }
@@ -301,7 +321,7 @@ public class Parser {
     }
 
     private static boolean hasDate(String input) {
-        return input.contains("\\");
+        return input.contains("/");
     }
 
     private static boolean hasNotes(String input) throws DukeException {
@@ -343,7 +363,7 @@ public class Parser {
     private static String getDesc(String input) throws DukeException {
         String output = input;
         if (hasDate(input)) {
-            output = input.substring(0, input.indexOf("\\"));
+            output = input.substring(0, input.indexOf("/"));
         } else if (hasNotes(input)) {
             output = input.substring(0, input.indexOf("\""));
         }
