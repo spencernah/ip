@@ -3,11 +3,11 @@ package duke.command;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import duke.command.task.SetDoAfterCommand;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import duke.command.task.SetDoAfterCommand;
 import duke.others.DukeException;
 import duke.storage.Storage;
 import duke.task.TaskList;
