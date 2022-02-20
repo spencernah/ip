@@ -1,7 +1,5 @@
 package duke.others;
 
-import duke.task.Deadline;
-import duke.task.Event;
 import duke.task.Task;
 
 /**
@@ -16,8 +14,9 @@ public class Utility {
      */
     public static boolean isNumber(String s) {
         for (int i = 0; i < s.length(); i++) {
-            if (Character.isDigit(s.charAt(i)) == false)
+            if (!Character.isDigit(s.charAt(i))) {
                 return false;
+            }
         }
         return true;
     }
@@ -30,16 +29,16 @@ public class Utility {
      */
     public static String constructInput(Task task) {
         String taskType = task.getType();
-        String input = "";
-        if (taskType == "D") {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + ((Deadline) task).getDate() +
-                    ";" + task.getDoAfter() + ";" + task.getDoBefore();
-        } else if (taskType == "E") {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + ((Event) task).getDate() +
-                    ";" + task.getDoAfter() + ";" + task.getDoBefore();
+        String input;
+        if (taskType.equals("D")) {
+            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
+                    + ";" + task.getDoAfter() + ";" + task.getDoBefore();
+        } else if (taskType.equals("E")) {
+            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
+                    + ";" + task.getDoAfter() + ";" + task.getDoBefore();
         } else {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + ";" + task.getDoAfter() +
-                    ";" + task.getDoBefore();
+            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + ";" + task.getDoAfter()
+                    + ";" + task.getDoBefore();
         }
         return input;
     }

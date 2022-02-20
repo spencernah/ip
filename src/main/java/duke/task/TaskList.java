@@ -1,11 +1,11 @@
 package duke.task;
 
-import java.util.ArrayList;
 import java.io.BufferedReader;
-import java.io.StringReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 /**
  * Represents the list used to store the various tasks.
@@ -100,6 +100,11 @@ public class TaskList {
         taskList.add(task);
     }
 
+    /**
+     * Total number of pending tasks.
+     *
+     * @return the count of pending tasks
+     */
     public int pendingSize() {
         int count = 0;
         for (int i = 0; i < taskList.size(); ++i) {

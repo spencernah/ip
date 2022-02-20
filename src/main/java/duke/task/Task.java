@@ -75,7 +75,7 @@ public class Task {
         return this.isDone;
     }
 
-    /** @return the task type, task status (as a icon) and task description. */
+    /** @return the task type, task status (as an icon) and task description. */
     public String getStatusIconAndDesc() {
         return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
     }
@@ -126,5 +126,4 @@ public class Task {
     public boolean isDoBeforeEmpty() {
         return this.doBefore == -1;
     }
-
 }

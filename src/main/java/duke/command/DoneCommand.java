@@ -1,14 +1,14 @@
 package duke.command;
 
+import java.io.IOException;
+
+import duke.others.DukeException;
+import duke.others.Messages;
+import duke.others.Utility;
+import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.storage.Storage;
-import duke.others.DukeException;
-import duke.others.Utility;
-import duke.others.Messages;
-
-import java.io.IOException;
 
 /**
  * Sets a task to completed/done status.
@@ -45,8 +45,8 @@ public class DoneCommand extends Command {
             currentTask.markAsDone();
             String input = "One task off the list!\n\t" + currentTask.getStatusIconAndDesc() + "\n";
             if (!currentTask.isDoBeforeEmpty() && !tasks.get(currentTask.getDoBefore()).getIsDone()) {
-                throw new DukeException("You need to complete the parent task before completing this task!\n\t" +
-                        "Parent task: " + tasks.get(currentTask.getDoBefore()).getStatusIconAndDesc());
+                throw new DukeException("You need to complete the parent task before completing this task!\n\t"
+                       + "Parent task: " + tasks.get(currentTask.getDoBefore()).getStatusIconAndDesc());
             }
             if (!currentTask.isDoAfterEmpty()) {
                 Task childTask = tasks.get(currentTask.getDoAfter());

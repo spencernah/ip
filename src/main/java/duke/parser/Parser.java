@@ -1,16 +1,25 @@
 package duke.parser;
 
-import duke.command.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+import duke.command.AddCommand;
+import duke.command.Command;
+import duke.command.DeleteCommand;
+import duke.command.DoneCommand;
+import duke.command.ExitCommand;
+import duke.command.FindCommand;
+import duke.command.UnknownCommand;
+import duke.command.ViewAllCommand;
+import duke.command.ViewByDateCommand;
+import duke.command.ViewByStatusCommand;
+import duke.command.ViewByUpcomingCommand;
 import duke.others.DateFormat;
 import duke.others.DukeException;
 import duke.others.Keyword;
 import duke.others.Utility;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
 public class Parser {
-
     public static final String KEYWORD_EXIT_1 = Keyword.EXIT_1;
     public static final String KEYWORD_EXIT_2 = Keyword.EXIT_2;
     public static final String KEYWORD_DONE = Keyword.DONE;
@@ -26,7 +35,6 @@ public class Parser {
     public static final String KEYWORD_REMINDER = Keyword.REMINDER;
     public static final String ERR_NOT_A_INT = "Please enter an integer";
 
-
     /**
      * Parses user input.
      */
@@ -34,10 +42,10 @@ public class Parser {
     }
 
     /**
-     * Parses user input into duke.command for execution.
+     * Parses user input into command for execution.
      *
      * @param input full user input string.
-     * @return the duke.command based on the user input.
+     * @return the command based on the user input.
      */
     public static Command parse(String input) throws DukeException, DateTimeParseException {
         checkForDelimiter(input);
@@ -69,14 +77,14 @@ public class Parser {
         case KEYWORD_DONE:
             parameter = removeKeyword(input, KEYWORD_DONE);
             if (Utility.isNumber(parameter)) {
-                return new DoneCommand( Integer.parseInt(parameter) - 1);
+                return new DoneCommand(Integer.parseInt(parameter) - 1);
             } else {
                 throw new DukeException(ERR_NOT_A_INT);
             }
         case KEYWORD_DELETE:
             parameter = removeKeyword(input, KEYWORD_DELETE);
             if (Utility.isNumber(parameter)) {
-                return new DeleteCommand( Integer.parseInt(parameter));
+                return new DeleteCommand(Integer.parseInt(parameter));
             } else {
                 throw new DukeException(ERR_NOT_A_INT);
             }
@@ -92,12 +100,13 @@ public class Parser {
             desc = removeKeyword(input, keyword);
             checkDesc(desc);
             return new AddCommand(keyword, desc);
+        default:
+            return new UnknownCommand();
         }
-        return new UnknownCommand();
     }
 
     /**
-     * Get keyword of the duke.command based on the user input.
+     * Get keyword of the command based on the user input.
      *
      * @param input full user input string.
      * @return keyword of the duke.command.
@@ -122,7 +131,7 @@ public class Parser {
     }
 
     /**
-     * Remove keyword to get the duke.command parameters (if applicable).
+     * Remove keyword to get the command parameters (if applicable).
      *
      * @param input full user input string.
      * @param keyword duke.command keyword.
@@ -133,7 +142,7 @@ public class Parser {
     }
 
     /**
-     * Checks if user has input a task description when entering a create task duke.command.
+     * Checks if user has input a task description when trying to create a task.
      *
      * @param param duke.command parameter.
      * @throws DukeException if task description is missing from the user input.
@@ -145,7 +154,7 @@ public class Parser {
     }
 
     /**
-     * Checks if user has input a date when entering a create Event/Deadline duke.command.
+     * Checks if user has input a date when entering a create Event/Deadline command.
      *
      * @param param duke.command parameter.
      * @throws DukeException if user did not lead the date with a "/" character, did not enter a date or enter an
@@ -157,12 +166,12 @@ public class Parser {
             throw new DukeException("Please enter a date and lead it with \"/\"");
         }
         String date = param.substring(delimiterIndex + 1);
-        if (date.length() == 0)  {
+        if (date.length() == 0) {
             throw new DukeException("Please include a date after the \"/\" :)");
         }
         if (date.lastIndexOf("-") < 0) {
-            throw new DukeException("Duke reads date in " + DateFormat.STANDARD +
-                    ". Please separate your dates with \"-\" (eg. 2019-08-15)");
+            throw new DukeException("Duke reads date in " + DateFormat.STANDARD
+                    + ". Please separate your dates with \"-\" (eg. 2019-08-15)");
         }
     }
 
@@ -170,7 +179,7 @@ public class Parser {
      * Condenses all the methods that needs to be performed to ensure that the date input is correct and return the
      * correct date format (if applicable).
      *
-     * @param input full user input string..
+     * @param input full user input string.
      * @return date string in the correct format (yyyy-mm-dd).
      * @throws DukeException from checkDate() method.
      */
@@ -204,7 +213,7 @@ public class Parser {
      * Ensure that the users do not input any delimiter character
      *
      * @param input full user input string.
-     * @throws DukeException if there the delimiter character is used in input
+     * @throws DukeException if delimiter character is used in input
      */
     private static void checkForDelimiter(String input) throws DukeException {
         if (input.matches(".*;.*")) {

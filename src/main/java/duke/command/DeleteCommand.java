@@ -1,16 +1,16 @@
 package duke.command;
 
+import java.io.IOException;
+
+import duke.others.DukeException;
+import duke.others.Messages;
+import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.storage.Storage;
-import duke.others.DukeException;
-import duke.others.Messages;
-
-import java.io.IOException;
 
 /**
- * Delete a task from the task list.
+ * Deletes a task from the task list.
  */
 public class DeleteCommand extends Command {
     protected int index;

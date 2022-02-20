@@ -10,9 +10,13 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class Event extends Task {
-    /** Represents the occurrence date of the event*/
     protected LocalDate date;
 
+    /**
+     * A type of task that has the occurrence date
+     * @param desc is name of task
+     * @param date is occurrence of task
+     */
     public Event(String desc, LocalDate date) {
         super(desc, "E");
         this.date = date;

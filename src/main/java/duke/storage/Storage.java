@@ -1,17 +1,17 @@
 package duke.storage;
 
-import duke.task.TaskList;
-import duke.others.Utility;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+
+import duke.others.Utility;
+import duke.task.TaskList;
 
 /**
  * Represents the file and its corresponding methods used to store task list data.
@@ -43,7 +43,7 @@ public class Storage {
         File f = new File(this.path);
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
-            this.data = this.data + s.nextLine() + System.lineSeparator();
+            this.data = this.data.concat(s.nextLine() + System.lineSeparator());
         }
         if (this.data.length() > 0) {
             this.isEmpty = true;
@@ -58,7 +58,7 @@ public class Storage {
      * @throws IOException if there are errors writing the data to the storage file.
      */
     public void save(TaskList tasks) throws IOException {
-        FileWriter writer = new FileWriter(new File(this.path));
+        FileWriter writer = new FileWriter(this.path);
         int index = 0;
         for (int i = 0; i < tasks.size(); ++i) {
             String input = index + ";" + Utility.constructInput(tasks.get(i));
@@ -81,7 +81,7 @@ public class Storage {
     }
 
     /**
-     * Updates a specific line of data (a.k.a task data). Used mainly when changes are made to existing tasks.
+     * Updates a specific tasks. Used mainly when changes are made to existing tasks.
      *
      * @param n is the index of the record.
      * @param input is the new data.

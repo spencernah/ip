@@ -1,10 +1,10 @@
 package duke.command;
 
+import duke.others.DukeException;
+import duke.others.Messages;
+import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.storage.Storage;
-import duke.others.Messages;
-import duke.others.DukeException;
 
 /**
  * Display the list of tasks
@@ -37,5 +37,4 @@ public class ViewAllCommand extends Command {
         }
         return input;
     }
-
 }

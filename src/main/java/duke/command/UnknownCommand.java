@@ -12,7 +12,7 @@ public class UnknownCommand extends Command {
     public UnknownCommand() {}
 
     /**
-     * Executes the duke.command and prints a response.
+     * Prints a message when command is not recognised.
      *
      * @param tasks task list.
      * @param ui text ui.

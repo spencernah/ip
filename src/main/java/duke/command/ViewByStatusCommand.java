@@ -34,7 +34,7 @@ public class ViewByStatusCommand extends Command {
         String input = "";
         for (int i = 0; i < tasks.size(); ++i) {
             if (!tasks.get(i).getIsDone()) {
-                input += "\t" + (i + 1) + ". "+ tasks.get(i).getStatusIconAndDesc() + "\n";
+                input = input.concat("\t" + (i + 1) + ". " + tasks.get(i).getStatusIconAndDesc() + "\n");
             }
         }
         return input;

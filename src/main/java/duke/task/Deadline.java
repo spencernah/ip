@@ -1,9 +1,9 @@
 package duke.task;
 
-import duke.others.DateFormat;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import duke.others.DateFormat;
 
 /**
  * A type of task where task is tied to a due date
@@ -12,6 +12,11 @@ public class Deadline extends Task {
     /** Represents the due date of the task */
     protected LocalDate date;
 
+    /**
+     * A type of task that has a due date
+     * @param desc is the name of task
+     * @param date is the due date of task
+     */
     public Deadline(String desc, LocalDate date) {
         super(desc, "D");
         this.date = date;

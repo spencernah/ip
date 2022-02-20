@@ -1,16 +1,16 @@
 package duke.command;
 
-import duke.task.TaskList;
-import duke.task.Task;
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.ToDo;
-import duke.ui.Ui;
-import duke.storage.Storage;
-import duke.others.Utility;
-
 import java.io.IOException;
 import java.time.LocalDate;
+
+import duke.others.Utility;
+import duke.storage.Storage;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.TaskList;
+import duke.task.ToDo;
+import duke.ui.Ui;
 
 /**
  * Adds a task to the task list.
@@ -25,7 +25,7 @@ public class AddCommand extends Command {
      *
      * @param type task type.
      * @param desc task description.
-     * @param date occurence/due date depending on task type.
+     * @param date date of event or due date of deadline.
      */
     public AddCommand(String type, String desc, LocalDate date) {
         this.type = type;
@@ -41,11 +41,11 @@ public class AddCommand extends Command {
      */
     public AddCommand(String type, String desc) {
         this.type = type;
-        this.desc= desc;
+        this.desc = desc;
     }
 
     /**
-     * Executes the duke.command and add a new task to the task list.
+     * Adds a new task to the task list.
      *
      * @param tasks task list.
      * @param ui text ui.
@@ -53,17 +53,21 @@ public class AddCommand extends Command {
      * @throws IOException if there are errors appending the date to the storage file.
      */
     public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
-        if (this.type == "todo") {
+        switch(this.type) {
+        case("todo"):
             tasks.add(new ToDo(this.desc));
-        } else if (this.type == "event") {
+            break;
+        case("event"):
             tasks.add(new Event(this.desc, this.date));
-        } else if (this.type == "deadline") {
+            break;
+        case("deadline"):
             tasks.add(new Deadline(this.desc, this.date));
+            break;
+        default:
         }
         int index = tasks.size() - 1;
         Task task = tasks.get(index);
         storage.append(index + ";" + Utility.constructInput(task));
-        return "New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index+1) + " tasks in your list";
+        return "New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index + 1) + " tasks in your list";
     }
-
 }

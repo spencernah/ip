@@ -20,7 +20,7 @@ public class FindCommand extends Command {
     }
 
     /**
-     * Executes the duke.command to find the corresponding task in the task list.
+     * Find the corresponding task in the task list.
      *
      * @param tasks task list.
      * @param ui text ui.
@@ -28,7 +28,7 @@ public class FindCommand extends Command {
      * @throws DukeException if task list is empty or there are no tasks with date equals to the user input date.
      */
     public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
-        String input =  getListByDesc(tasks);
+        String input = getListByDesc(tasks);
         if (tasks.isEmpty() || input.length() == 0) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
@@ -40,7 +40,7 @@ public class FindCommand extends Command {
         String input = "";
         for (int i = 0; i < tasks.size(); ++i) {
             if (tasks.get(i).getDesc().matches(".*" + this.keyword + ".*")) {
-                input += "\t" + (i + 1) + ". "+ tasks.get(i).getStatusIconAndDesc() + "\n";
+                input = input.concat("\t" + (i + 1) + ". " + tasks.get(i).getStatusIconAndDesc() + "\n");
             }
         }
         return input;
