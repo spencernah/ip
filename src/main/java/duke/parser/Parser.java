@@ -3,45 +3,29 @@ package duke.parser;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-import duke.command.AddCommand;
 import duke.command.Command;
-import duke.command.DeleteCommand;
-import duke.command.DoneCommand;
-import duke.command.ExitCommand;
-import duke.command.FindCommand;
-import duke.command.SetDoAfterCommand;
-import duke.command.UnknownCommand;
-import duke.command.ViewAllCommand;
-import duke.command.ViewByDateCommand;
-import duke.command.ViewByStatusCommand;
-import duke.command.ViewByUpcomingCommand;
-import duke.others.DateFormat;
+import duke.command.list.FilterByDateCommand;
+import duke.command.list.FilterByDescCommand;
+import duke.command.list.FilterByStatusCommand;
+import duke.command.list.FilterByUpcomingCommand;
+import duke.command.list.ListAllCommand;
+import duke.command.task.AddCommand;
+import duke.command.task.DeleteCommand;
+import duke.command.task.DoneCommand;
+import duke.command.task.SetDoAfterCommand;
+import duke.command.util.ExitCommand;
+import duke.command.util.UnknownCommand;
 import duke.others.DukeException;
 import duke.others.Keyword;
+import duke.others.Messages;
 import duke.others.Utility;
 
 public class Parser {
-    public static final String KEYWORD_EXIT_1 = Keyword.EXIT_1;
-    public static final String KEYWORD_EXIT_2 = Keyword.EXIT_2;
-    public static final String KEYWORD_DONE = Keyword.DONE;
-    public static final String KEYWORD_DELETE = Keyword.DELETE;
-    public static final String KEYWORD_TODO = Keyword.ADD_TODO;
-    public static final String KEYWORD_DEADLINE = Keyword.ADD_DEADLINE;
-    public static final String KEYWORD_EVENT = Keyword.ADD_EVENT;
-    public static final String KEYWORD_LIST_DATE = Keyword.VIEW_BY_DATE;
-    public static final String KEYWORD_LIST = Keyword.VIEW_ALL;
-    public static final String KEYWORD_PENDING_1 = Keyword.VIEW_BY_STATUS_1;
-    public static final String KEYWORD_PENDING_2 = Keyword.VIEW_BY_STATUS_2;
-    public static final String KEYWORD_FIND = Keyword.FIND;
-    public static final String KEYWORD_REMINDER = Keyword.REMINDER;
-    public static final String KEYWORD_DO_AFTER_1 = Keyword.DO_AFTER_1;
-    public static final String KEYWORD_DO_AFTER_2 = Keyword.DO_AFTER_2;
-    public static final String ERR_NOT_A_INT = "Please enter an integer";
-
     /**
      * Parses user input.
      */
     public Parser() {
+
     }
 
     /**
@@ -53,74 +37,77 @@ public class Parser {
     public static Command parse(String input) throws DukeException, DateTimeParseException {
         checkForDelimiter(input);
         String keyword = getKeyword(input.trim());
-        String param;
+        String param = "";
         String desc;
         String dateStr;
-        String notes = null;
-        LocalDate date;
+        String notes = "";
+        LocalDate date = null;
+        boolean hasParam = true;
+        boolean isParamANumber = true;
+
+        if (input.length() != keyword.length()) {
+            param = removeKeyword(input, keyword).trim();
+            hasParam = param.length() > 0;
+            isParamANumber  = Utility.isNumber(param);
+        }
+        if (hasDate(input)) {
+            dateStr = getDateAsStr(input);
+            date = LocalDate.parse(dateStr);
+        }
+        if (hasNotes(input)) {
+            notes = getNotes(input);
+        }
 
         switch (keyword) {
-        case KEYWORD_EXIT_1:
-        case KEYWORD_EXIT_2:
+        case Keyword.EXIT_1:
+        case Keyword.EXIT_2:
             return new ExitCommand();
-        case KEYWORD_LIST:
-            return new ViewAllCommand();
-        case KEYWORD_PENDING_1:
-        case KEYWORD_PENDING_2:
-            return new ViewByStatusCommand();
-        case KEYWORD_LIST_DATE:
-            dateStr = getDateAsStr(input);
-            date = LocalDate.parse(dateStr);
-            return new ViewByDateCommand(date);
-        case KEYWORD_FIND:
-            param = removeKeyword(input, KEYWORD_FIND).trim();
-            if (param.length() == 0) {
-                throw new DukeException("Please enter a parameter after \"find\"");
+        case Keyword.LIST_ALL:
+            return new ListAllCommand();
+        case Keyword.LIST_BY_STATUS_PENDING_1:
+        case Keyword.LIST_BY_STATUS_PENDING_2:
+            return new FilterByStatusCommand("pending");
+        case Keyword.LIST_BY_STATUS_COMPLETED_1:
+        case Keyword.LIST_BY_STATUS_COMPLETED_2:
+            return new FilterByStatusCommand("completed");
+        case Keyword.LIST_BY_DATE:
+            return new FilterByDateCommand(date);
+        case Keyword.FIND:
+            if (hasParam) {
+                return new FilterByDescCommand(param);
+            } else {
+                throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_FIND);
             }
-            return new FindCommand(param);
-        case KEYWORD_REMINDER:
-            return new ViewByUpcomingCommand();
-        case KEYWORD_DONE:
-            param = removeKeyword(input, KEYWORD_DONE);
-            if (Utility.isNumber(param)) {
+        case Keyword.REMINDER:
+            return new FilterByUpcomingCommand();
+        case Keyword.DONE:
+            if (isParamANumber) {
                 return new DoneCommand(Integer.parseInt(param) - 1);
             } else {
-                throw new DukeException(ERR_NOT_A_INT);
+                throw new DukeException(Messages.ERR_NOT_A_INT);
             }
-        case KEYWORD_DELETE:
-            param = removeKeyword(input, KEYWORD_DELETE);
-            if (Utility.isNumber(param)) {
+        case Keyword.DELETE:
+            if (isParamANumber) {
                 return new DeleteCommand(Integer.parseInt(param));
             } else {
-                throw new DukeException(ERR_NOT_A_INT);
+                throw new DukeException(Messages.ERR_NOT_A_INT);
             }
-        case KEYWORD_DEADLINE:
-        case KEYWORD_EVENT:
-            param = removeKeyword(input, keyword);
-            dateStr = getDateAsStr(input);
-            date = LocalDate.parse(dateStr);
+        case Keyword.DEADLINE:
+        case Keyword.EVENT:
             desc = getDesc(param);
-            notes = getNotes(param);
             return new AddCommand(keyword, desc, date, notes);
-        case KEYWORD_TODO:
-            param = removeKeyword(input, keyword);
+        case Keyword.TODO:
             desc = getDesc(param);
-            notes = getNotes(param);
             return new AddCommand(keyword, desc, notes);
-        case(KEYWORD_DO_AFTER_1):
-        case(KEYWORD_DO_AFTER_2):
-            param = removeKeyword(input, keyword).trim();
-            if (param.length() == 0) {
-                throw new DukeException("Please enter a parameter after \"doafter\"");
-            }
+        case Keyword.DOAFTER_1:
+        case Keyword.DOAFTER_2:
             String taskIndex1 = param.substring(0, 1);
-            if (!Utility.isNumber(taskIndex1)) {
-                throw new DukeException(ERR_NOT_A_INT);
-            }
-            checkTaskIndex(param);
+            checkDoAfterSyntax(param);
             String taskIndex2 = param.substring(param.lastIndexOf("/") + 1).trim();
-            if (!Utility.isNumber(taskIndex2)) {
-                throw new DukeException(ERR_NOT_A_INT);
+            if (!hasParam) {
+                throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
+            } else if (!Utility.isNumber(taskIndex1) || !Utility.isNumber(taskIndex2)) {
+                throw new DukeException(Messages.ERR_NOT_A_INT);
             }
             return new SetDoAfterCommand(Integer.parseInt(taskIndex1) - 1,
                     Integer.parseInt(taskIndex2) - 1);
@@ -136,24 +123,24 @@ public class Parser {
      * @return keyword of the duke.command.
      */
     private static String getKeyword(String input) {
-        if (input.matches(KEYWORD_DONE + ".*")) {
-            return KEYWORD_DONE;
-        } else if (input.matches(KEYWORD_DELETE + ".*")) {
-            return KEYWORD_DELETE;
-        } else if (input.matches(KEYWORD_DEADLINE + ".*")) {
-            return KEYWORD_DEADLINE;
-        } else if (input.matches(KEYWORD_EVENT + ".*")) {
-            return KEYWORD_EVENT;
-        } else if (input.matches(KEYWORD_TODO + ".*")) {
-            return KEYWORD_TODO;
-        } else if (input.matches(KEYWORD_LIST_DATE + ".*")) {
-            return KEYWORD_LIST_DATE;
-        } else if (input.matches(KEYWORD_FIND + ".*")) {
-            return KEYWORD_FIND;
-        } else if (input.matches(KEYWORD_DO_AFTER_1 + ".*")) {
-            return KEYWORD_DO_AFTER_1;
-        } else if (input.matches(KEYWORD_DO_AFTER_2 + ".*")) {
-            return KEYWORD_DO_AFTER_2;
+        if (input.matches(Keyword.DONE + ".*")) {
+            return Keyword.DONE;
+        } else if (input.matches(Keyword.DELETE + ".*")) {
+            return Keyword.DELETE;
+        } else if (input.matches(Keyword.DEADLINE + ".*")) {
+            return Keyword.DEADLINE;
+        } else if (input.matches(Keyword.EVENT + ".*")) {
+            return Keyword.EVENT;
+        } else if (input.matches(Keyword.TODO + ".*")) {
+            return Keyword.TODO;
+        } else if (input.matches(Keyword.LIST_BY_DATE + ".*")) {
+            return Keyword.LIST_BY_DATE;
+        } else if (input.matches(Keyword.FIND + ".*")) {
+            return Keyword.FIND;
+        } else if (input.matches(Keyword.DOAFTER_1 + ".*")) {
+            return Keyword.DOAFTER_1;
+        } else if (input.matches(Keyword.DOAFTER_2 + ".*")) {
+            return Keyword.DOAFTER_2;
         }
         return input;
     }
@@ -166,7 +153,9 @@ public class Parser {
      * @return duke.command parameters.
      */
     private static String removeKeyword(String input, String keyword) {
-        return input.replace(keyword, "").trim();
+        int endIndex = input.length();
+        int startIndex = keyword.length() + 1;
+        return input.substring(startIndex, endIndex).trim();
     }
 
     /**
@@ -179,15 +168,14 @@ public class Parser {
     private static void checkDate(String param) throws DukeException {
         int delimiterIndex = param.lastIndexOf("/");
         if (delimiterIndex == -1) {
-            throw new DukeException("Please enter a date and lead it with \"/\"");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NO_LEADING_DATE_DELIMITER);
         }
         String date = param.substring(delimiterIndex + 1);
         if (date.length() == 0) {
-            throw new DukeException("Please include a date after the \"/\" :)");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NO_DATE_AFTER_DELIMITER);
         }
         if (date.lastIndexOf("-") < 0) {
-            throw new DukeException("Duke reads date in " + DateFormat.STANDARD
-                    + ". Please separate your dates with \"-\" (eg. 2019-08-15)");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_INCORRECT_DATE_FORMAT);
         }
     }
 
@@ -233,18 +221,18 @@ public class Parser {
      */
     private static void checkForDelimiter(String input) throws DukeException {
         if (input.contains(";")) {
-            throw new DukeException("Please refrain from using the character \";\"");
+            throw new DukeException(Messages.ERR_INCORECT_SYNTAX_INVALID_CHAR);
         }
     }
 
-    private static void checkTaskIndex(String param) throws DukeException {
+    private static void checkDoAfterSyntax(String param) throws DukeException {
         int delimiterIndex = param.lastIndexOf("/");
         if (delimiterIndex == -1) {
-            throw new DukeException("Please enter a task number and lead it with \"/\"\n(eg. doafter 3 /2)");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
         }
         String date = param.substring(delimiterIndex + 1);
         if (date.length() == 0) {
-            throw new DukeException("Please include a task number after the \"/\" :)");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_NO_LEADING_DELIMITER);
         }
     }
 
@@ -262,7 +250,7 @@ public class Parser {
         if (count > 0) {
             return true;
         } else if (count == 1) {
-            throw new DukeException("Missing quotation mark (\"). Please enclose notes within 2 quotation marks!");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NOTES_MISSING_QUOTATION_MARK);
         }
         return false;
     }
@@ -274,7 +262,11 @@ public class Parser {
      * @param input values entered by user.
      */
     private static boolean hasDesc(String input) throws DukeException {
-        return input.length() != 0 && input.charAt(0) != '/' && input.charAt(0) != '\"';
+        boolean isLenZero = input.length() == 0;
+        boolean isDate = input.charAt(0) == '/';
+        boolean isNotes = input.charAt(0) != '\"';
+
+        return !(isLenZero && isDate && isNotes);
     }
 
     private static String getNotes(String input) throws DukeException {
@@ -294,7 +286,7 @@ public class Parser {
         if (hasDesc(output)) {
             return output;
         } else {
-            throw new DukeException("Task Description cannot be empty!!");
+            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_TASK_NO_DESC);
         }
     }
 }

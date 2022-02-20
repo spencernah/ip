@@ -33,7 +33,7 @@ public class Deadline extends Task {
     }
 
     /** @return the task type, task status (as a icon), task description and task date (in "dd mm yyyy" format). */
-    public String getStatusIconAndDesc() {
+    public String getTypeStatusDesc() {
         return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (by: + getFormattedDate() + )";
     }
 }

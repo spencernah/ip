@@ -79,15 +79,15 @@ public class Task {
     }
 
     /** @return the task type, task status (as an icon) and task description. */
-    public String getStatusIconAndDesc() {
-        return "\t[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + "\n\t\t" + this.notes;
+    public String getTypeStatusDesc() {
+        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
     }
 
     /** @return the task type, task status (as an icon) and task description and notes. */
-    public String getAll() {
+    public String getTypeStatusDescNotes() {
         String output = "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
         if (hasNotes()) {
-            output += "\n\t: " + this.notes;
+            output = output.concat("\n\t: " + this.notes);
         }
         return output;
     }
@@ -154,6 +154,6 @@ public class Task {
     }
 
     public boolean hasNotes() {
-        return this.notes.length() > 0;
+        return this.notes != null && this.notes.length() > 0;
     }
 }

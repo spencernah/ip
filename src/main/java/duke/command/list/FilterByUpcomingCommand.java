@@ -1,8 +1,9 @@
-package duke.command;
+package duke.command.list;
 
 import java.time.LocalDate;
 import java.time.Period;
 
+import duke.command.Command;
 import duke.others.DukeException;
 import duke.others.Messages;
 import duke.storage.Storage;
@@ -13,8 +14,8 @@ import duke.ui.Ui;
 /**
  * Display list of upcoming tasks.
  */
-public class ViewByUpcomingCommand extends Command {
-    public ViewByUpcomingCommand() {
+public class FilterByUpcomingCommand extends Command {
+    public FilterByUpcomingCommand() {
     }
 
     /**
@@ -45,11 +46,11 @@ public class ViewByUpcomingCommand extends Command {
             }
             int dateDiff = Period.between(today, task.getDate()).getDays();
             if (dateDiff == 0) {
-                dueToday = dueToday.concat((i + 1) + ". " + task.getAll() + "\n");
+                dueToday = dueToday.concat((i + 1) + ". " + task.getTypeStatusDescNotes() + "\n");
             } else if (dateDiff == 1) {
-                dueTmr = dueTmr.concat("\t" + (i + 1) + ". " + task.getAll() + "\n");
+                dueTmr = dueTmr.concat("\t" + (i + 1) + ". " + task.getTypeStatusDescNotes() + "\n");
             } else if (dateDiff < 0 && task.getType().equals("D")) {
-                overdue = overdue.concat("\t" + (i + 1) + ". " + task.getAll() + "\n");
+                overdue = overdue.concat("\t" + (i + 1) + ". " + task.getTypeStatusDescNotes() + "\n");
             }
         }
         String input = "";

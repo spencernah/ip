@@ -1,5 +1,6 @@
-package duke.command;
+package duke.command.list;
 
+import duke.command.Command;
 import duke.others.DukeException;
 import duke.others.Messages;
 import duke.storage.Storage;
@@ -9,8 +10,8 @@ import duke.ui.Ui;
 /**
  * Display the list of tasks
  */
-public class ViewAllCommand extends Command {
-    public ViewAllCommand() {
+public class ListAllCommand extends Command {
+    public ListAllCommand() {
     }
 
     /**
@@ -33,7 +34,7 @@ public class ViewAllCommand extends Command {
     private String getAll(TaskList list) {
         String input = "";
         for (int i = 0; i < list.size(); ++i) {
-            input = input.concat((i + 1) + ". " + list.get(i).getAll() + "\n");
+            input = input.concat((i + 1) + ". " + list.get(i).getTypeStatusDescNotes() + "\n");
         }
         return input;
     }

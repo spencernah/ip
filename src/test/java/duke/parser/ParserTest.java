@@ -38,14 +38,14 @@ public class ParserTest {
     @Test
     public void parseViewByDateCommandNoDate() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.VIEW_BY_DATE);
+            Command c = Parser.parse(Keyword.LIST_BY_DATE);
         });
     }
 
     @Test
     public void parseViewByDateCommandIncorrectDateFormat() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.VIEW_BY_DATE + "/20190805");
+            Command c = Parser.parse(Keyword.LIST_BY_DATE + "/20190805");
         });
     }
 
@@ -66,28 +66,28 @@ public class ParserTest {
     @Test
     public void parseAddCommandDeadlineNoDesc() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.ADD_DEADLINE);
+            Command c = Parser.parse(Keyword.DEADLINE);
         });
     }
 
     @Test
     public void parseAddCommandDeadlineNoDate() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.ADD_DEADLINE + "test/");
+            Command c = Parser.parse(Keyword.DEADLINE + "test/");
         });
     }
 
     @Test
     public void parseAddCommandDeadlineIncorrectDateFormat() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.ADD_DEADLINE + "test/20190805");
+            Command c = Parser.parse(Keyword.DEADLINE + "test/20190805");
         });
     }
 
     @Test
     public void parseAddCommandTodoNoDesc() {
         Assertions.assertThrows(DukeException.class, () -> {
-            Command c = Parser.parse(Keyword.ADD_TODO);
+            Command c = Parser.parse(Keyword.TODO);
         });
     }
 
@@ -95,7 +95,7 @@ public class ParserTest {
     public void parseAddCommandDeadlineDateFormat() throws DukeException {
         String test = "";
         try {
-            Command c = Parser.parse(Keyword.ADD_DEADLINE + "test/2019-8-5");
+            Command c = Parser.parse(Keyword.DEADLINE + "test/2019-8-5");
             c.execute(tasks, ui, storage);
             test = ((Deadline) tasks.get(tasks.size() - 1)).getFormattedDate();
         } catch (DukeException | IOException e) {

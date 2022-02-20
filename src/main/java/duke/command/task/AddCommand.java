@@ -1,8 +1,9 @@
-package duke.command;
+package duke.command.task;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
+import duke.command.Command;
 import duke.others.Utility;
 import duke.storage.Storage;
 import duke.task.Deadline;
@@ -71,6 +72,6 @@ public class AddCommand extends Command {
         int index = tasks.size() - 1;
         Task task = tasks.get(index);
         storage.append(index + ";" + Utility.constructInput(task));
-        return "New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index + 1) + " tasks in your list";
+        return "New task added: \n\t" + task.getTypeStatusDescNotes() + "\n" + (index + 1) + " tasks in your list";
     }
 }

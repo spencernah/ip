@@ -1,5 +1,7 @@
 package duke.others;
 
+import java.time.LocalDate;
+
 import duke.task.Task;
 
 /**
@@ -29,7 +31,26 @@ public class Utility {
      */
     public static String constructInput(Task task) {
         String taskType = task.getType();
-        return taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
-                + ";" + task.getDoAfter() + ";" + task.getDoBefore() + ";" + task.getNotes();
+        boolean isDone = task.getIsDone();
+        String desc = task.getDesc();
+        LocalDate date = task.getDate();
+        int doAfter = task.getDoAfter();
+        int doBefore = task.getDoBefore();
+        String notes = task.getNotes();
+        String input;
+
+        if (notes == null) {
+            notes = "";
+        }
+
+        if (taskType.equals("D") || taskType.equals("E")) {
+            input = taskType + ";" + isDone + ";" + desc + ";" + date
+                    + ";" + doAfter + ";" + doBefore + ";" + notes;
+        } else {
+            input = taskType + ";" + task.getIsDone() + ";" + desc + ";" + ";" + doAfter
+                    + ";" + doBefore + ";" + notes;
+        }
+
+        return input;
     }
 }

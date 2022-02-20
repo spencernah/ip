@@ -1,7 +1,8 @@
-package duke.command;
+package duke.command.task;
 
 import java.io.IOException;
 
+import duke.command.Command;
 import duke.others.DukeException;
 import duke.others.Messages;
 import duke.others.Utility;
@@ -43,14 +44,14 @@ public class DoneCommand extends Command {
         } else {
             Task currentTask = tasks.get(index);
             currentTask.markAsDone();
-            String input = "One task off the list!\n\t" + currentTask.getStatusIconAndDesc() + "\n";
+            String input = "One task off the list!\n\t" + currentTask.getTypeStatusDesc() + "\n";
             if (!currentTask.isDoBeforeEmpty() && !tasks.get(currentTask.getDoBefore()).getIsDone()) {
                 throw new DukeException("You need to complete the parent task before completing this task!\n\t"
-                       + "Parent task: " + tasks.get(currentTask.getDoBefore()).getStatusIconAndDesc());
+                       + "Parent task: " + tasks.get(currentTask.getDoBefore()).getTypeStatusDescNotes());
             }
             if (!currentTask.isDoAfterEmpty()) {
                 Task childTask = tasks.get(currentTask.getDoAfter());
-                input += "\nYou can now start on the next task!\n\t" + childTask.getStatusIconAndDesc() + "\n";
+                input += "\nYou can now start on the next task!\n\t" + childTask.getTypeStatusDescNotes() + "\n";
             }
             storage.updateLine(index, index + ";" + Utility.constructInput(tasks.get(index)));
             return input;
