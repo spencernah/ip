@@ -9,6 +9,7 @@ import duke.command.DeleteCommand;
 import duke.command.DoneCommand;
 import duke.command.ExitCommand;
 import duke.command.FindCommand;
+import duke.command.SetDoAfterCommand;
 import duke.command.UnknownCommand;
 import duke.command.ViewAllCommand;
 import duke.command.ViewByDateCommand;
@@ -33,6 +34,8 @@ public class Parser {
     public static final String KEYWORD_PENDING_2 = Keyword.VIEW_BY_STATUS_2;
     public static final String KEYWORD_FIND = Keyword.FIND;
     public static final String KEYWORD_REMINDER = Keyword.REMINDER;
+    public static final String KEYWORD_DO_AFTER_1 = Keyword.DO_AFTER_1;
+    public static final String KEYWORD_DO_AFTER_2 = Keyword.DO_AFTER_2;
     public static final String ERR_NOT_A_INT = "Please enter an integer";
 
     /**
@@ -100,6 +103,23 @@ public class Parser {
             desc = removeKeyword(input, keyword);
             checkDesc(desc);
             return new AddCommand(keyword, desc);
+        case(KEYWORD_DO_AFTER_1):
+        case(KEYWORD_DO_AFTER_2):
+            parameter = removeKeyword(input, keyword).trim();
+            if (parameter.length() == 0) {
+                throw new DukeException("Please enter a parameter after \"doafter\"");
+            }
+            String taskIndex1 = parameter.substring(0, 1);
+            if (!Utility.isNumber(taskIndex1)) {
+                throw new DukeException(ERR_NOT_A_INT);
+            }
+            checkTaskIndex(parameter);
+            String taskIndex2 = parameter.substring(parameter.lastIndexOf("/") + 1).trim();
+            if (!Utility.isNumber(taskIndex2)) {
+                throw new DukeException(ERR_NOT_A_INT);
+            }
+            return new SetDoAfterCommand(Integer.parseInt(taskIndex1) - 1,
+                    Integer.parseInt(taskIndex2) - 1);
         default:
             return new UnknownCommand();
         }
@@ -126,6 +146,10 @@ public class Parser {
             return KEYWORD_LIST_DATE;
         } else if (input.matches(KEYWORD_FIND + ".*")) {
             return KEYWORD_FIND;
+        } else if (input.matches(KEYWORD_DO_AFTER_1 + ".*")){
+            return KEYWORD_DO_AFTER_1;
+        } else if (input.matches(KEYWORD_DO_AFTER_2 + ".*")){
+            return KEYWORD_DO_AFTER_2;
         }
         return input;
     }
@@ -218,6 +242,17 @@ public class Parser {
     private static void checkForDelimiter(String input) throws DukeException {
         if (input.matches(".*;.*")) {
             throw new DukeException("Please refrain from using the character \";\"");
+        }
+    }
+
+    private static void checkTaskIndex(String param) throws DukeException {
+        int delimiterIndex = param.lastIndexOf("/");
+        if (delimiterIndex == -1) {
+            throw new DukeException("Please enter a task number and lead it with \"/\"\n(eg. doafter 3 /2)");
+        }
+        String date = param.substring(delimiterIndex + 1);
+        if (date.length() == 0) {
+            throw new DukeException("Please include a task number after the \"/\" :)");
         }
     }
 }
