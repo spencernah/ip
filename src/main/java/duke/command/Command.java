@@ -18,7 +18,8 @@ public class Command {
         this.isExit = false;
     }
 
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
+        return null;
     }
 
     /**

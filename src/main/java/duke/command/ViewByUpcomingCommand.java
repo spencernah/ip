@@ -25,12 +25,12 @@ public class ViewByUpcomingCommand extends Command {
      * @param storage storage file.
      * @throws DukeException if there are no tasks in the task list.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         String input = getUpcoming(tasks);
         if (tasks.isEmpty()) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
-        ui.print(input);
+        return input;
     }
 
     private String getUpcoming(TaskList tasks) {

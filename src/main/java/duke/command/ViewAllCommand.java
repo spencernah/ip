@@ -21,13 +21,13 @@ public class ViewAllCommand extends Command {
      * @param storage storage file.
      * @throws DukeException if task list is empty
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         if (tasks.isEmpty()) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
         String input = Messages.LIST_HEADER;
         input += getAll(tasks);
-        ui.print(input);
+        return input;
     }
 
     private String getAll(TaskList tasks) {

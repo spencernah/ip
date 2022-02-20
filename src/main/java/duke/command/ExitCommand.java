@@ -18,8 +18,9 @@ public class ExitCommand extends Command {
      * @param ui text ui.
      * @param storage storage file.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         ui.showEnd();
         this.isExit = true;
+        return null;
     }
 }

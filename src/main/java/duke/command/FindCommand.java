@@ -27,13 +27,13 @@ public class FindCommand extends Command {
      * @param storage storage file.
      * @throws DukeException if task list is empty or there are no tasks with date equals to the user input date.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         String input =  getListByDesc(tasks);
         if (tasks.isEmpty() || input.length() == 0) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
         input = Messages.LIST_HEADER + input;
-        ui.print(input);
+        return input;
     }
 
     private String getListByDesc (TaskList tasks) {

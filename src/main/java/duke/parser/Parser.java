@@ -76,7 +76,7 @@ public class Parser {
         case KEYWORD_DELETE:
             parameter = removeKeyword(input, KEYWORD_DELETE);
             if (Utility.isNumber(parameter)) {
-                return new DeleteCommand( Integer.parseInt(parameter) - 1);
+                return new DeleteCommand( Integer.parseInt(parameter));
             } else {
                 throw new DukeException(ERR_NOT_A_INT);
             }

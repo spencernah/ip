@@ -1,8 +1,9 @@
 package duke.command;
 
+import duke.others.Messages;
+import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.storage.Storage;
 
 /**
  * When user input/duke.command is not taken into account in the Parser.
@@ -17,7 +18,7 @@ public class UnknownCommand extends Command {
      * @param ui text ui.
      * @param storage storage file.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showUnknown();
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return Messages.MSG_UNKNOWN;
     }
 }

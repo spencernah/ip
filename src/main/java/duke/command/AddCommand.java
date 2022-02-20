@@ -52,7 +52,7 @@ public class AddCommand extends Command {
      * @param storage storage file.
      * @throws IOException if there are errors appending the date to the storage file.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         if (this.type == "todo") {
             tasks.add(new ToDo(this.desc));
         } else if (this.type == "event") {
@@ -63,7 +63,7 @@ public class AddCommand extends Command {
         int index = tasks.size() - 1;
         Task task = tasks.get(index);
         storage.append(index + ";" + Utility.constructInput(task));
-        ui.print("New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index+1) + " tasks in your list");
+        return "New task added: \n\t" + task.getStatusIconAndDesc() + "\n" + (index+1) + " tasks in your list";
     }
 
 }

@@ -33,7 +33,7 @@ public class DoneCommand extends Command {
      * in completed status or the parent task is not done.
      * @throws IOException if there are errors updating the specific line of data in the storage file.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
         if (tasks.isEmpty()) {
             throw new DukeException(Messages.LIST_EMPTY);
         } else if (tasks.size() <= index) {
@@ -53,7 +53,7 @@ public class DoneCommand extends Command {
                 input += "\nYou can now start on the next task!\n\t" + childTask.getStatusIconAndDesc() + "\n";
             }
             storage.updateLine(index, index + ";" + Utility.constructInput(tasks.get(index)));
-            ui.print(input);
+            return input;
         }
     }
 }

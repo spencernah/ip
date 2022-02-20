@@ -21,13 +21,13 @@ public class ViewByStatusCommand extends Command {
      * @param storage storage file.
      * @throws DukeException if task list is empty or there are no tasks with status (isDone) equals to false.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         String input = getPending(tasks);
         if (tasks.isEmpty() || input.length() == 0) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
         input = Messages.LIST_HEADER + input;
-        ui.print(input);
+        return input;
     }
 
     private String getPending(TaskList tasks) {

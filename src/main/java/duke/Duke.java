@@ -1,27 +1,43 @@
 package duke;
 
 import duke.command.Command;
+import duke.others.DateFormat;
 import duke.others.DukeException;
 import duke.parser.Parser;
+import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import duke.others.DateFormat;
-import duke.storage.Storage;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.format.DateTimeParseException;
+
 
 /**
  * Entry point of the Duke application.
  * Initializes the application and starts the interaction with the user.
  */
-public class Duke {
+public class Duke extends Application {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    private ScrollPane scrollPane;
+    private VBox dialogContainer;
+    private TextField userInput;
+    private Button sendButton;
+    private Scene scene;
+
     public static void main(String[] args) {
-        new Duke("C:\\Users\\User\\Documents\\ip\\data\\data.txt").run();
+        //]new Duke("C:\\Users\\User\\Documents\\ip\\data\\data.txt").run();
+
     }
 
     /**
@@ -29,6 +45,8 @@ public class Duke {
      * @param filePath argument is the directory where the data for the existing task list (if any) is stored.
      *                 The argument is hardcoded at the moment.
      */
+
+
     public Duke(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -45,7 +63,9 @@ public class Duke {
         }
     }
 
+
     /** Runs the program until termination.  */
+/*
     public void run() {
         ui.showWelcome();
         boolean isFirstRun = true;
@@ -74,6 +94,36 @@ public class Duke {
             } finally {
                 ui.showLine();
             }
+        }
+    }
+*/
+
+
+    @Override
+    public void start(Stage stage) {
+
+    }
+
+
+
+    /**
+     * You should have your own function to generate a response to user input.
+     * Replace this stub with your completed method.
+     */
+    String getResponse(String input) {
+        //return "Duke heard: " + input;
+
+        Command c;
+
+        try {
+            c = Parser.parse(input);
+            return c.execute(tasks, ui, storage);
+        } catch (DukeException e) {
+            return e.getMessage();
+        } catch (IOException e) {
+            return "Line not found";
+        } catch (DateTimeParseException e) {
+            return "Please enter the date in this format: " + DateFormat.STANDARD;
         }
     }
 }

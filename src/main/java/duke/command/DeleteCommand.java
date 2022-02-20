@@ -16,10 +16,10 @@ public class DeleteCommand extends Command {
     protected int index;
 
     /**
-     * @param index index of the task in the task list.
+     * @param input index of the task in the task list.
      */
-    public DeleteCommand(int index) {
-        this.index = index;
+    public DeleteCommand(int input) {
+        this.index = input - 1;
     }
 
     /**
@@ -33,17 +33,16 @@ public class DeleteCommand extends Command {
      * @throws DukeException if the task list is empty or task index input is out of range.
      * @throws IOException if there are errors writing the data to the storage file.
      */
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
         if (tasks.isEmpty()) {
             throw new DukeException(Messages.LIST_EMPTY);
         } else if (tasks.size() <= this.index) {
             throw new DukeException("Please enter a task number between 1 and " + tasks.size());
         } else {
             updateChildAndParent(tasks);
-            ui.print("Yessir! Task removed!!\n\t"
-                    + tasks.get(this.index).getStatusIconAndDesc() + "\n" + (tasks.size() - 1) + " tasks to go!");
             tasks.remove(this.index);
             storage.save(tasks);
+            return "Yessir! Task removed!!\n\t" + (tasks.pendingSize()) + " pending task(s) to go!";
         }
     }
 

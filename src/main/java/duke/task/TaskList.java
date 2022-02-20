@@ -23,7 +23,7 @@ public class TaskList {
     public TaskList(String input) throws IOException, DateTimeParseException {
         this.taskList = new ArrayList();
         BufferedReader reader = new BufferedReader(new StringReader(input));
-        String line = null;
+        String line;
         while ((line = reader.readLine()) != null) {
             String[] delimited = line.split(";");
             if ("T".equals(delimited[1])) {
@@ -98,5 +98,15 @@ public class TaskList {
      */
     public void add(Task task) {
         taskList.add(task);
+    }
+
+    public int pendingSize() {
+        int count = 0;
+        for (int i = 0; i < taskList.size(); ++i) {
+            if (!taskList.get(i).getIsDone()) {
+                count++;
+            }
+        }
+        return count;
     }
 }
