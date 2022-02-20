@@ -21,7 +21,7 @@ import duke.ui.Ui;
 public class ParserTest {
 
     private Ui ui = new Ui();
-    private Storage storage = new Storage("/Users/spencernah/code/duke/data/data_test.txt");
+    private Storage storage = new Storage("C:\\Users\\User\\Documents\\ip\\data\\data_test.txt");
     private TaskList tasks;
 
     @BeforeEach
