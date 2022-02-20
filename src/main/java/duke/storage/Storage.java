@@ -105,5 +105,4 @@ public class Storage {
     private String readLine(int n) throws IOException {
         return Files.readAllLines(Paths.get(this.path)).get(n);
     }
-
 }

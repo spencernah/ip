@@ -53,9 +53,11 @@ public class Parser {
     public static Command parse(String input) throws DukeException, DateTimeParseException {
         checkForDelimiter(input);
         String keyword = getKeyword(input.trim());
-        String parameter;
+        String param;
         String desc;
-        String date;
+        String dateStr;
+        String notes = null;
+        LocalDate date;
 
         switch (keyword) {
         case KEYWORD_EXIT_1:
@@ -67,54 +69,56 @@ public class Parser {
         case KEYWORD_PENDING_2:
             return new ViewByStatusCommand();
         case KEYWORD_LIST_DATE:
-            date = getCleanDateStr(input);
-            return new ViewByDateCommand(LocalDate.parse(date));
+            dateStr = getDateAsStr(input);
+            date = LocalDate.parse(dateStr);
+            return new ViewByDateCommand(date);
         case KEYWORD_FIND:
-            parameter = removeKeyword(input, KEYWORD_FIND).trim();
-            if (parameter.length() == 0) {
+            param = removeKeyword(input, KEYWORD_FIND).trim();
+            if (param.length() == 0) {
                 throw new DukeException("Please enter a parameter after \"find\"");
             }
-            return new FindCommand(parameter);
+            return new FindCommand(param);
         case KEYWORD_REMINDER:
             return new ViewByUpcomingCommand();
         case KEYWORD_DONE:
-            parameter = removeKeyword(input, KEYWORD_DONE);
-            if (Utility.isNumber(parameter)) {
-                return new DoneCommand(Integer.parseInt(parameter) - 1);
+            param = removeKeyword(input, KEYWORD_DONE);
+            if (Utility.isNumber(param)) {
+                return new DoneCommand(Integer.parseInt(param) - 1);
             } else {
                 throw new DukeException(ERR_NOT_A_INT);
             }
         case KEYWORD_DELETE:
-            parameter = removeKeyword(input, KEYWORD_DELETE);
-            if (Utility.isNumber(parameter)) {
-                return new DeleteCommand(Integer.parseInt(parameter));
+            param = removeKeyword(input, KEYWORD_DELETE);
+            if (Utility.isNumber(param)) {
+                return new DeleteCommand(Integer.parseInt(param));
             } else {
                 throw new DukeException(ERR_NOT_A_INT);
             }
         case KEYWORD_DEADLINE:
         case KEYWORD_EVENT:
-            parameter = removeKeyword(input, keyword);
-            checkDesc(parameter);
-            date = getCleanDateStr(input);
-            LocalDate dateLocal = LocalDate.parse(date);
-            desc = parameter.substring(0, parameter.lastIndexOf("/")).trim();
-            return new AddCommand(keyword, desc, dateLocal);
+            param = removeKeyword(input, keyword);
+            dateStr = getDateAsStr(input);
+            date = LocalDate.parse(dateStr);
+            desc = getDesc(param);
+            notes = getNotes(param);
+            return new AddCommand(keyword, desc, date, notes);
         case KEYWORD_TODO:
-            desc = removeKeyword(input, keyword);
-            checkDesc(desc);
-            return new AddCommand(keyword, desc);
+            param = removeKeyword(input, keyword);
+            desc = getDesc(param);
+            notes = getNotes(param);
+            return new AddCommand(keyword, desc, notes);
         case(KEYWORD_DO_AFTER_1):
         case(KEYWORD_DO_AFTER_2):
-            parameter = removeKeyword(input, keyword).trim();
-            if (parameter.length() == 0) {
+            param = removeKeyword(input, keyword).trim();
+            if (param.length() == 0) {
                 throw new DukeException("Please enter a parameter after \"doafter\"");
             }
-            String taskIndex1 = parameter.substring(0, 1);
+            String taskIndex1 = param.substring(0, 1);
             if (!Utility.isNumber(taskIndex1)) {
                 throw new DukeException(ERR_NOT_A_INT);
             }
-            checkTaskIndex(parameter);
-            String taskIndex2 = parameter.substring(parameter.lastIndexOf("/") + 1).trim();
+            checkTaskIndex(param);
+            String taskIndex2 = param.substring(param.lastIndexOf("/") + 1).trim();
             if (!Utility.isNumber(taskIndex2)) {
                 throw new DukeException(ERR_NOT_A_INT);
             }
@@ -146,9 +150,9 @@ public class Parser {
             return KEYWORD_LIST_DATE;
         } else if (input.matches(KEYWORD_FIND + ".*")) {
             return KEYWORD_FIND;
-        } else if (input.matches(KEYWORD_DO_AFTER_1 + ".*")){
+        } else if (input.matches(KEYWORD_DO_AFTER_1 + ".*")) {
             return KEYWORD_DO_AFTER_1;
-        } else if (input.matches(KEYWORD_DO_AFTER_2 + ".*")){
+        } else if (input.matches(KEYWORD_DO_AFTER_2 + ".*")) {
             return KEYWORD_DO_AFTER_2;
         }
         return input;
@@ -163,18 +167,6 @@ public class Parser {
      */
     private static String removeKeyword(String input, String keyword) {
         return input.replace(keyword, "").trim();
-    }
-
-    /**
-     * Checks if user has input a task description when trying to create a task.
-     *
-     * @param param duke.command parameter.
-     * @throws DukeException if task description is missing from the user input.
-     */
-    private static void checkDesc(String param) throws DukeException {
-        if (param.length() == 0 || param.charAt(0) == '/') {
-            throw new DukeException("Task description cannot be empty!!");
-        }
     }
 
     /**
@@ -207,7 +199,7 @@ public class Parser {
      * @return date string in the correct format (yyyy-mm-dd).
      * @throws DukeException from checkDate() method.
      */
-    private static String getCleanDateStr(String input) throws DukeException {
+    private static String getDateAsStr(String input) throws DukeException {
         checkDate(input);
         input = input.substring(input.lastIndexOf("/") + 1).trim();
         input = changeDateFormat(input);
@@ -240,7 +232,7 @@ public class Parser {
      * @throws DukeException if delimiter character is used in input
      */
     private static void checkForDelimiter(String input) throws DukeException {
-        if (input.matches(".*;.*")) {
+        if (input.contains(";")) {
             throw new DukeException("Please refrain from using the character \";\"");
         }
     }
@@ -253,6 +245,56 @@ public class Parser {
         String date = param.substring(delimiterIndex + 1);
         if (date.length() == 0) {
             throw new DukeException("Please include a task number after the \"/\" :)");
+        }
+    }
+
+    private static boolean hasDate(String input) {
+        return input.contains("\\");
+    }
+
+    private static boolean hasNotes(String input) throws DukeException {
+        int count = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '\"') {
+                count++;
+            }
+        }
+        if (count > 0) {
+            return true;
+        } else if (count == 1) {
+            throw new DukeException("Missing quotation mark (\"). Please enclose notes within 2 quotation marks!");
+        }
+        return false;
+    }
+
+
+    /**
+     * Checks if user has input a task description when trying to create a task.
+     *
+     * @param input values entered by user.
+     */
+    private static boolean hasDesc(String input) throws DukeException {
+        return input.length() != 0 && input.charAt(0) != '/' && input.charAt(0) != '\"';
+    }
+
+    private static String getNotes(String input) throws DukeException {
+        if (hasNotes(input)) {
+            return input.substring(input.indexOf("\"") + 1, input.lastIndexOf("\""));
+        }
+        return null;
+    }
+
+    private static String getDesc(String input) throws DukeException {
+        String output = input;
+        if (hasDate(input)) {
+            output = input.substring(0, input.indexOf("\\"));
+        } else if (hasNotes(input)) {
+            output = input.substring(0, input.indexOf("\""));
+        }
+        if (hasDesc(output)) {
+            return output;
+        } else {
+            throw new DukeException("Task Description cannot be empty!!");
         }
     }
 }

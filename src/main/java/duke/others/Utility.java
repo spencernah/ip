@@ -29,17 +29,7 @@ public class Utility {
      */
     public static String constructInput(Task task) {
         String taskType = task.getType();
-        String input;
-        if (taskType.equals("D")) {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
-                    + ";" + task.getDoAfter() + ";" + task.getDoBefore();
-        } else if (taskType.equals("E")) {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
-                    + ";" + task.getDoAfter() + ";" + task.getDoBefore();
-        } else {
-            input = taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + ";" + task.getDoAfter()
-                    + ";" + task.getDoBefore();
-        }
-        return input;
+        return taskType + ";" + task.getIsDone() + ";" + task.getDesc() + ";" + task.getDate()
+                + ";" + task.getDoAfter() + ";" + task.getDoBefore() + ";" + task.getNotes();
     }
 }

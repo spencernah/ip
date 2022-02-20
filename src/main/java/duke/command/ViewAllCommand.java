@@ -3,6 +3,7 @@ package duke.command;
 import duke.others.DukeException;
 import duke.others.Messages;
 import duke.storage.Storage;
+import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
@@ -30,10 +31,10 @@ public class ViewAllCommand extends Command {
         return input;
     }
 
-    private String getAll(TaskList tasks) {
+    private String getAll(TaskList list) {
         String input = "";
-        for (int i = 0; i < tasks.size(); ++i) {
-            input += "\t" + (i + 1) + ". " + tasks.get(i).getStatusIconAndDesc() + "\n";
+        for (int i = 0; i < list.size(); ++i) {
+            input = input.concat((i + 1) + ". " + list.get(i).getAll() + "\n");
         }
         return input;
     }

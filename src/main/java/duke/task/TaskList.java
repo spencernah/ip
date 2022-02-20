@@ -25,13 +25,13 @@ public class TaskList {
         BufferedReader reader = new BufferedReader(new StringReader(input));
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] delimited = line.split(";");
+            String[] delimited = line.split(";", 8);
             if ("T".equals(delimited[1])) {
-                taskList.add(new ToDo(delimited[3]));
+                taskList.add(new ToDo(delimited[3], delimited[7]));
             } else if ("E".equals(delimited[1])) {
-                taskList.add(new Event(delimited[3], LocalDate.parse(delimited[4])));
+                taskList.add(new Event(delimited[3], LocalDate.parse(delimited[4]), delimited[7]));
             } else if ("D".equals(delimited[1])) {
-                taskList.add(new Deadline(delimited[3], LocalDate.parse(delimited[4])));
+                taskList.add(new Deadline(delimited[3], LocalDate.parse(delimited[4]), delimited[7]));
             }
             taskList.get(taskList.size() - 1).setStatus(Boolean.parseBoolean(delimited[2]));
             taskList.get(taskList.size() - 1).setDoAfter(Integer.parseInt(delimited[5]));

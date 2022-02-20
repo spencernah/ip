@@ -17,8 +17,8 @@ public class Deadline extends Task {
      * @param desc is the name of task
      * @param date is the due date of task
      */
-    public Deadline(String desc, LocalDate date) {
-        super(desc, "D");
+    public Deadline(String desc, LocalDate date, String notes) {
+        super(desc, "D", notes);
         this.date = date;
     }
 
@@ -34,6 +34,6 @@ public class Deadline extends Task {
 
     /** @return the task type, task status (as a icon), task description and task date (in "dd mm yyyy" format). */
     public String getStatusIconAndDesc() {
-        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (by: " + getFormattedDate() + ")";
+        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (by: + getFormattedDate() + )";
     }
 }

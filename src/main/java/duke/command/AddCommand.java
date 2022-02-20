@@ -19,6 +19,7 @@ public class AddCommand extends Command {
     protected String type;
     protected String desc;
     protected LocalDate date;
+    protected String notes;
 
     /**
      * Add a Deadline or Event task.
@@ -27,10 +28,11 @@ public class AddCommand extends Command {
      * @param desc task description.
      * @param date date of event or due date of deadline.
      */
-    public AddCommand(String type, String desc, LocalDate date) {
+    public AddCommand(String type, String desc, LocalDate date, String notes) {
         this.type = type;
         this.desc = desc;
         this.date = date;
+        this.notes = notes;
     }
 
     /**
@@ -39,9 +41,10 @@ public class AddCommand extends Command {
      * @param type task type.
      * @param desc task description.
      */
-    public AddCommand(String type, String desc) {
+    public AddCommand(String type, String desc, String notes) {
         this.type = type;
         this.desc = desc;
+        this.notes = notes;
     }
 
     /**
@@ -55,13 +58,13 @@ public class AddCommand extends Command {
     public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         switch(this.type) {
         case("todo"):
-            tasks.add(new ToDo(this.desc));
+            tasks.add(new ToDo(this.desc, this.notes));
             break;
         case("event"):
-            tasks.add(new Event(this.desc, this.date));
+            tasks.add(new Event(this.desc, this.date, this.notes));
             break;
         case("deadline"):
-            tasks.add(new Deadline(this.desc, this.date));
+            tasks.add(new Deadline(this.desc, this.date, this.notes));
             break;
         default:
         }

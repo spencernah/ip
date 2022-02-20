@@ -45,7 +45,7 @@ public class ViewByDateCommand extends Command {
                 continue;
             }
             if (tasks.get(i).getDate().equals(date)) {
-                input = input.concat("\t" + (i + 1) + ". " + tasks.get(i).getStatusIconAndDesc() + "\n");
+                input = input.concat((i + 1) + ". " + tasks.get(i).getAll() + "\n");
             }
         }
         return input;

@@ -16,8 +16,8 @@ public class Event extends Task {
      * @param desc is name of task
      * @param date is occurrence of task
      */
-    public Event(String desc, LocalDate date) {
-        super(desc, "E");
+    public Event(String desc, LocalDate date, String notes) {
+        super(desc, "E", notes);
         this.date = date;
     }
 

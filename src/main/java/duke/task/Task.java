@@ -8,17 +8,20 @@ public class Task {
     /** Represents the status of the task. */
     protected boolean isDone;
     protected String type;
+    protected String notes = null;
     protected int doAfter = -1;
     protected int doBefore = -1;
+
 
     /**
      * @param desc is the description of the task.
      * @param type is the type of the task (deadline, event or todo).
      */
-    public Task(String desc, String type) {
+    public Task(String desc, String type, String notes) {
         this.desc = desc;
         this.isDone = false;
         this.type = type;
+        this.notes = notes;
     }
 
     /**
@@ -77,7 +80,16 @@ public class Task {
 
     /** @return the task type, task status (as an icon) and task description. */
     public String getStatusIconAndDesc() {
-        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
+        return "\t[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + "\n\t\t" + this.notes;
+    }
+
+    /** @return the task type, task status (as an icon) and task description and notes. */
+    public String getAll() {
+        String output = "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc;
+        if (hasNotes()) {
+            output += "\n\t: " + this.notes;
+        }
+        return output;
     }
 
     /** @return the task type (deadline, event or todo. */
@@ -125,5 +137,23 @@ public class Task {
      */
     public boolean isDoBeforeEmpty() {
         return this.doBefore == -1;
+    }
+
+    /**
+     * @param input is the notes to be associated with the task
+     */
+    public void updateNotes(String input) {
+        this.notes = input;
+    }
+
+    /**
+     * @return notes associated to the task
+     */
+    public String getNotes() {
+        return this.notes;
+    }
+
+    public boolean hasNotes() {
+        return this.notes.length() > 0;
     }
 }

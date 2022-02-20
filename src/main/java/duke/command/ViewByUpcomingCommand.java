@@ -45,11 +45,11 @@ public class ViewByUpcomingCommand extends Command {
             }
             int dateDiff = Period.between(today, task.getDate()).getDays();
             if (dateDiff == 0) {
-                dueToday = dueToday.concat("\t" + (i + 1) + ". " + task.getStatusIconAndDesc() + "\n");
+                dueToday = dueToday.concat((i + 1) + ". " + task.getAll() + "\n");
             } else if (dateDiff == 1) {
-                dueTmr = dueTmr.concat("\t" + (i + 1) + ". " + task.getStatusIconAndDesc() + "\n");
+                dueTmr = dueTmr.concat("\t" + (i + 1) + ". " + task.getAll() + "\n");
             } else if (dateDiff < 0 && task.getType().equals("D")) {
-                overdue = overdue.concat("\t" + (i + 1) + ". " + task.getStatusIconAndDesc() + "\n");
+                overdue = overdue.concat("\t" + (i + 1) + ". " + task.getAll() + "\n");
             }
         }
         String input = "";
