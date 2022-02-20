@@ -8,28 +8,28 @@ import duke.task.TaskList;
 import duke.ui.Ui;
 
 /**
- * Display list of tasks based on user input task description.
+ * Display list of tasks with notes that matches keyword(s).
  */
-public class FilterByDescCommand extends Command {
+public class FilterByNotesCommand extends Command {
     protected String keyword;
 
     /**
-     * @param input user input task description.
+     * @param input for note's keywords.
      */
-    public FilterByDescCommand(String input) {
+    public FilterByNotesCommand(String input) {
         this.keyword = input;
     }
 
     /**
-     * Find the corresponding task in the task list.
+     * Find tasks with notes that matches the keyword(s)
      *
      * @param tasks task list.
      * @param ui text ui.
      * @param storage storage file.
-     * @throws DukeException if task list is empty or there are no tasks with description that matches the keyword(s).
+     * @throws DukeException if task list is empty or there are no tasks with the matching keywords
      */
     public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
-        String input = getListByDesc(tasks);
+        String input = getListByNotes(tasks);
         if (tasks.isEmpty() || input.length() == 0) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
@@ -37,10 +37,10 @@ public class FilterByDescCommand extends Command {
         return input;
     }
 
-    private String getListByDesc (TaskList tasks) {
+    private String getListByNotes (TaskList tasks) {
         String input = "";
         for (int i = 0; i < tasks.size(); ++i) {
-            if (tasks.get(i).getDesc().matches(".*" + this.keyword + ".*")) {
+            if (tasks.get(i).getNotes().matches(".*" + this.keyword + ".*")) {
                 input = input.concat("\t" + (i + 1) + ". " + tasks.get(i).getTypeStatusDescNotes() + "\n");
             }
         }

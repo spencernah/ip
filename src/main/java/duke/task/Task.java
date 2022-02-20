@@ -142,8 +142,15 @@ public class Task {
     /**
      * @param input is the notes to be associated with the task
      */
-    public void updateNotes(String input) {
+    public void setNotes(String input) {
         this.notes = input;
+    }
+
+    /**
+     * Deletes the note
+     */
+    public void deleteNotes() {
+        this.notes = "";
     }
 
     /**

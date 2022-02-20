@@ -4,11 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import duke.command.Command;
-import duke.command.list.FilterByDateCommand;
-import duke.command.list.FilterByDescCommand;
-import duke.command.list.FilterByStatusCommand;
-import duke.command.list.FilterByUpcomingCommand;
-import duke.command.list.ListAllCommand;
+import duke.command.list.*;
+import duke.command.notes.AddNotesCommand;
+import duke.command.notes.DeleteNotesCommand;
+import duke.command.notes.UpdateNotesCommand;
 import duke.command.task.AddCommand;
 import duke.command.task.DeleteCommand;
 import duke.command.task.DoneCommand;
@@ -16,8 +15,8 @@ import duke.command.task.SetDoAfterCommand;
 import duke.command.util.ExitCommand;
 import duke.command.util.UnknownCommand;
 import duke.others.DukeException;
+import duke.others.ErrorMessages;
 import duke.others.Keyword;
-import duke.others.Messages;
 import duke.others.Utility;
 
 public class Parser {
@@ -41,6 +40,7 @@ public class Parser {
         String desc;
         String dateStr;
         String notes = "";
+        String taskIndex;
         LocalDate date = null;
         boolean hasParam = true;
         boolean isParamANumber = true;
@@ -48,7 +48,7 @@ public class Parser {
         if (input.length() != keyword.length()) {
             param = removeKeyword(input, keyword).trim();
             hasParam = param.length() > 0;
-            isParamANumber  = Utility.isNumber(param);
+            isParamANumber = Utility.isNumber(param);
         }
         if (hasDate(input)) {
             dateStr = getDateAsStr(input);
@@ -76,7 +76,15 @@ public class Parser {
             if (hasParam) {
                 return new FilterByDescCommand(param);
             } else {
-                throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_FIND);
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_FIND);
+            }
+        case Keyword.LIST_BY_NOTES:
+            if (hasParam) {
+                return new FilterByNotesCommand(param);
+            } else if (notes.length() > 0) {
+                return new FilterByNotesCommand(notes);
+            } else {
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_LIST_NOTES);
             }
         case Keyword.REMINDER:
             return new FilterByUpcomingCommand();
@@ -84,13 +92,13 @@ public class Parser {
             if (isParamANumber) {
                 return new DoneCommand(Integer.parseInt(param) - 1);
             } else {
-                throw new DukeException(Messages.ERR_NOT_A_INT);
+                throw new DukeException(ErrorMessages.NOT_A_INT);
             }
         case Keyword.DELETE:
             if (isParamANumber) {
                 return new DeleteCommand(Integer.parseInt(param));
             } else {
-                throw new DukeException(Messages.ERR_NOT_A_INT);
+                throw new DukeException(ErrorMessages.NOT_A_INT);
             }
         case Keyword.DEADLINE:
         case Keyword.EVENT:
@@ -101,19 +109,56 @@ public class Parser {
             return new AddCommand(keyword, desc, notes);
         case Keyword.DOAFTER_1:
         case Keyword.DOAFTER_2:
-            String taskIndex1 = param.substring(0, 1);
+            String taskIndex1 = param.substring(0, param.indexOf(" "));
             checkDoAfterSyntax(param);
             String taskIndex2 = param.substring(param.lastIndexOf("/") + 1).trim();
             if (!hasParam) {
-                throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
             } else if (!Utility.isNumber(taskIndex1) || !Utility.isNumber(taskIndex2)) {
-                throw new DukeException(Messages.ERR_NOT_A_INT);
+                throw new DukeException(ErrorMessages.NOT_A_INT);
             }
             return new SetDoAfterCommand(Integer.parseInt(taskIndex1) - 1,
                     Integer.parseInt(taskIndex2) - 1);
+        case Keyword.NOTES_ADD_1:
+        case Keyword.NOTES_ADD_2:
+            taskIndex = param.substring(0, param.indexOf(" "));
+            if (!Utility.isNumber(taskIndex)) {
+                throw new DukeException(ErrorMessages.NOT_A_INT);
+            }
+            if (isEmpty(notes)) {
+                notes = param.substring(param.indexOf(" ") + 1);
+            }
+            if (isEmpty(notes)) {
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_NOTES_MISSING_TEXT);
+            }
+            return new AddNotesCommand(Integer.parseInt(taskIndex) - 1, notes);
+        case Keyword.NOTES_UPDATE_1:
+        case Keyword.NOTES_UPDATE_2:
+            taskIndex = param.substring(0, param.indexOf(" "));
+            if (!Utility.isNumber(taskIndex)) {
+                throw new DukeException(ErrorMessages.NOT_A_INT);
+            }
+            if (isEmpty(notes)) {
+                notes = param.substring(param.indexOf(" ") + 1);
+            }
+            if (isEmpty(notes)) {
+                throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_NOTES_MISSING_TEXT);
+            }
+            return new UpdateNotesCommand(Integer.parseInt(taskIndex) - 1, notes);
+        case Keyword.NOTES_DELETE_1:
+        case Keyword.NOTES_DELETE_2:
+            taskIndex = param;
+            if (!Utility.isNumber(taskIndex)) {
+                throw new DukeException(ErrorMessages.NOT_A_INT);
+            }
+            return new DeleteNotesCommand(Integer.parseInt(taskIndex) - 1);
         default:
             return new UnknownCommand();
         }
+    }
+
+    private static boolean isEmpty(String input) {
+        return input == null || input.length() == 0;
     }
 
     /**
@@ -141,6 +186,20 @@ public class Parser {
             return Keyword.DOAFTER_1;
         } else if (input.matches(Keyword.DOAFTER_2 + ".*")) {
             return Keyword.DOAFTER_2;
+        } else if (input.matches(Keyword.NOTES_ADD_1 + ".*")) {
+            return Keyword.NOTES_ADD_1;
+        } else if (input.matches(Keyword.NOTES_ADD_2 + ".*")) {
+            return Keyword.NOTES_ADD_2;
+        } else if (input.matches(Keyword.NOTES_UPDATE_1 + ".*")) {
+            return Keyword.NOTES_UPDATE_1;
+        } else if (input.matches(Keyword.NOTES_UPDATE_2 + ".*")) {
+            return Keyword.NOTES_UPDATE_2;
+        } else if (input.matches(Keyword.NOTES_DELETE_1 + ".*")) {
+            return Keyword.NOTES_DELETE_1;
+        } else if (input.matches(Keyword.NOTES_DELETE_2 + ".*")) {
+            return Keyword.NOTES_DELETE_2;
+        } else if (input.matches(Keyword.LIST_BY_NOTES + ".*")) {
+            return Keyword.LIST_BY_NOTES;
         }
         return input;
     }
@@ -168,14 +227,14 @@ public class Parser {
     private static void checkDate(String param) throws DukeException {
         int delimiterIndex = param.lastIndexOf("/");
         if (delimiterIndex == -1) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NO_LEADING_DATE_DELIMITER);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_NO_LEADING_DATE_DELIMITER);
         }
         String date = param.substring(delimiterIndex + 1);
         if (date.length() == 0) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NO_DATE_AFTER_DELIMITER);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_NO_DATE_AFTER_DELIMITER);
         }
         if (date.lastIndexOf("-") < 0) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_INCORRECT_DATE_FORMAT);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_INCORRECT_DATE_FORMAT);
         }
     }
 
@@ -221,18 +280,18 @@ public class Parser {
      */
     private static void checkForDelimiter(String input) throws DukeException {
         if (input.contains(";")) {
-            throw new DukeException(Messages.ERR_INCORECT_SYNTAX_INVALID_CHAR);
+            throw new DukeException(ErrorMessages.INCORECT_SYNTAX_INVALID_CHAR);
         }
     }
 
     private static void checkDoAfterSyntax(String param) throws DukeException {
         int delimiterIndex = param.lastIndexOf("/");
         if (delimiterIndex == -1) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_DOAFTER_MISSING_PARAM);
         }
         String date = param.substring(delimiterIndex + 1);
         if (date.length() == 0) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_DOAFTER_NO_LEADING_DELIMITER);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_DOAFTER_NO_LEADING_DELIMITER);
         }
     }
 
@@ -250,7 +309,7 @@ public class Parser {
         if (count > 0) {
             return true;
         } else if (count == 1) {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_NOTES_MISSING_QUOTATION_MARK);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_NOTES_MISSING_QUOTATION_MARK);
         }
         return false;
     }
@@ -286,7 +345,7 @@ public class Parser {
         if (hasDesc(output)) {
             return output;
         } else {
-            throw new DukeException(Messages.ERR_INCORRECT_SYNTAX_TASK_NO_DESC);
+            throw new DukeException(ErrorMessages.INCORRECT_SYNTAX_TASK_NO_DESC);
         }
     }
 }

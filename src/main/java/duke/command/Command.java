@@ -21,6 +21,4 @@ public class Command {
     public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
         return null;
     }
-
-
 }

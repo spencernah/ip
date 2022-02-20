@@ -50,7 +50,6 @@ public class Utility {
             input = taskType + ";" + task.getIsDone() + ";" + desc + ";" + ";" + doAfter
                     + ";" + doBefore + ";" + notes;
         }
-
         return input;
     }
 }

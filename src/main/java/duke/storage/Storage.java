@@ -83,14 +83,14 @@ public class Storage {
     /**
      * Updates a specific tasks. Used mainly when changes are made to existing tasks.
      *
-     * @param n is the index of the record.
+     * @param dataIndex is the index of the record.
      * @param input is the new data.
      * @throws IOException if there are errors writing the file.
      */
-    public void updateLine(int n, String input) throws IOException {
+    public void updateLine(int dataIndex, String input) throws IOException {
         Path path = Paths.get(this.path);
         String content = new String(Files.readAllBytes(path));
-        String line = readLine(n);
+        String line = readLine(dataIndex);
         content = content.replaceAll(line, input);
         Files.write(path, content.getBytes(StandardCharsets.UTF_8));
     }

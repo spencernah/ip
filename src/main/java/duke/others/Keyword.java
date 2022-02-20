@@ -18,4 +18,11 @@ public class Keyword {
     public static final String REMINDER = "reminder";
     public static final String DOAFTER_1 = "doafter";
     public static final String DOAFTER_2 = "do after";
+    public static final String NOTES_ADD_1 = "notes add";
+    public static final String NOTES_ADD_2 = "notesadd";
+    public static final String NOTES_UPDATE_1 = "notes update";
+    public static final String NOTES_UPDATE_2 = "noteupdate";
+    public static final String NOTES_DELETE_1 = "notes delete";
+    public static final String NOTES_DELETE_2 = "notesdelete";
+    public static final String LIST_BY_NOTES = "list notes";
 }
