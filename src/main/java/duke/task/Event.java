@@ -1,14 +1,13 @@
 package duke.task;
 
-import duke.others.DateFormat;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * A type of task where task is tied to a occurrence date
- */
+import duke.others.DateFormat;
 
+/**
+ * A type of task where task is tied to an occurrence date
+ */
 public class Event extends Task {
     protected LocalDate date;
 
@@ -32,7 +31,7 @@ public class Event extends Task {
         return this.date.format(DateTimeFormatter.ofPattern(DateFormat.EVENT_AND_DEADLINE));
     }
 
-    /** @return the task type, task status (as a icon), task description and task date (in "dd mm yyyy" format). */
+    /** @return the task type, task status (as an icon), task description and task date (in "dd mm yyyy" format). */
     public String getStatusIconAndDesc() {
         return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.desc + " (at: " + getFormattedDate() + ")";
     }

@@ -6,7 +6,6 @@ import java.util.Scanner;
  * Text UI of the application.
  */
 public class Ui {
-    protected Scanner in;
     protected static final String LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"
@@ -16,6 +15,7 @@ public class Ui {
     protected static final String MSG_END = "Oyasumi~";
     protected static final String MSG_GREETING = "Harrowwwwwww\nWut iz up?";
     protected static final String MSG_UNKNOWN = "Sorry, I don't understand this :(";
+    protected Scanner in;
 
     public Ui() {
         in = new Scanner(System.in);
