@@ -16,11 +16,16 @@ import javafx.stage.Stage;
  * A GUI for Duke using FXML.
  */
 public class Main extends Application {
+    private String dir;
+    private Duke duke;
 
-    private Duke duke = new Duke("C:\\Users\\User\\Documents\\ip\\data\\data.txt");
 
     @Override
     public void start(Stage stage) {
+        dir = System.getProperty("user.dir");
+        dir = dir + "\\data\\data.txt";
+        duke = new Duke(dir);
+        //duke = new Duke("C:\\Users\\User\\Documents\\ip\\data\\data.txt");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
