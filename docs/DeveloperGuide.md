@@ -5,7 +5,7 @@
 ### AddCommand
 AddCommand() is shared between all 3 task types; to-do, events and deadlines
 
-<img src="images/AddCCommandSequenceDiagram.png" alt="add-command-uml"/>
+<img src="images/AddCommandSequenceDiagram.png" alt="add-command-uml"/>
 
 
 
