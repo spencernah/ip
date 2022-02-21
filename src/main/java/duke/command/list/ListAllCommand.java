@@ -23,7 +23,7 @@ public class ListAllCommand extends Command {
      * @throws DukeException if task list is empty
      */
     public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
-         if (tasks.isEmpty()) {
+        if (tasks.isEmpty()) {
             throw new DukeException(Messages.LIST_EMPTY);
         }
         String input = Messages.LIST_HEADER;
